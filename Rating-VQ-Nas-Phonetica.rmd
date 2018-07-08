@@ -8,22 +8,740 @@ output:
   html_notebook:
     number_sections: true
     toc: true
-    toc_depth: 4
+    toc_depth: 6
     toc_float:
       collapsed: true
 ---
 
 # Introduction
-This analysis accompanies the article "Khattab, G., Al-Tamimi, J., and Al-Siraih, W., (in press). Nasalisation in the production of Iraqi Arabic pharyngeals. Phonetica.". 
+This analysis accompanies the article "Khattab, G., Al-Tamimi, J., and Al-Siraih, W., (2018). Nasalisation in the production of Iraqi Arabic pharyngeals. Phonetica. DOI: https://10.1159/000487806". 
 Below is an analysis of the perceptual experiment that was run to evaluate raters impressions of voice quality changes and/or nasalisation that was present within pharyngeals in Iraqi Arabic. 
 
 # Material
 Data were recorded from nine Iraqi Arabic speakers producing a list of items containing the two pharyngeal consonants /ħ ʕ/ and either an oral context (i.e., oral consonant), a nasal context (i.e., nasal consonant), or only two pharyngeals (/ʕ-ʕ/). The "control" contexts were oral-oral, oral-nasal, nasal-oral, nasal-nasal, and Isolation (which was all vowels in the items produced in isolation). The items were in a CVC environment. 
 
-Our aim in this analysis was to evaluate the impression of harsh/tense voice quality and/or nasalisation in the pharyngeal contexts, as compared with all other contexts specified above was perceptually salient or not. For this, six phonetically trained raters (inluding the first two authors) rated these items using Praat's MFC experiment. The data used here were a subset of the data (around 20%). The first author rated all items and the results obtained from the full set and the subset are comparable. We ran this as a rating experiment, with three levels rating for Voice Quality (experiment 1) and five levels rating for Nasalisation (experiment 2). For more details, see the article.
+Our aim in this analysis was to evaluate the impression of harsh/tense voice quality and/or nasalisation in the pharyngeal contexts, as compared with all other contexts specified above was perceptually salient or not. For this, six phonetically trained raters (including the first two authors) rated these items using Praat's MFC experiment. The data used here were a subset of the data (around 20% of the full dataset). The first author rated all items from the full dataset and the results obtained from the full set and the subset are comparable. We ran this as a rating experiment, with three levels rating for Voice Quality (experiment 1) and five levels rating for Nasalisation (experiment 2). For more details, see the article.
 
 # Statistical analyses
-## Details
+The results of the rating experiment were analysed using an Inter-Rater Reliability test and then using a Cumulative Logit Mixed Models. The aim of these two analsyes is to shed light into how pharyngeals, when in a nasal context show clear patterns of a nasal context.
+
+## Inter-Rater Reliability
+We started by evaluating Inter-Rater Reliability (IRR) using Intra-Class Correlations (ICC) on each of the Voice Quality and the Nasalisation rating experiments. We were interested in both consistency and agreement between the six rater. Results in the article are reported only for the agreement. Here we present and discuss both.
+
+### Loading required packages
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+requiredPackages = c('dplyr','irr','reshape2')
+for(p in requiredPackages){
+  if(!require(p,character.only = TRUE)) install.packages(p)
+  library(p,character.only = TRUE)
+}
+```
+
+### Reading in data
+
+We read in the data and check the structure
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+pharyngealsVQIRR <- read.csv("pharyngealsVQIRR.csv")
+pharyngealsNasIRR <- read.csv("pharyngealsNasIRR.csv")
+
+str(pharyngealsVQIRR)
+str(pharyngealsNasIRR)
+```
+
+### Melting and casting the data
+
+We change a few points in the data-frame. We transform the responses into numbers. We then melt and decast the data to have it in a wide format. The new structure has 9 rows (representing data from each producing subject) and 270 columns with the ratings from each word and rater ID. 
+```{r warning=FALSE, message=FALSE, error=FALSE}
+## change response into a number
+pharyngealsVQIRR$responseNumb <- as.numeric(pharyngealsVQIRR$responseNumb)
+pharyngealsNasIRR$responseNumb <- as.numeric(pharyngealsNasIRR$responseNumb)
+
+## casting and melting the data frame, VQ first
+pharyngealsVQIRRCast <- dcast(melt(pharyngealsVQIRR, id.vars=c("subjectNew", "wordTarget","raterNumber")), subjectNew~wordTarget+raterNumber)
+
+## casting and melting the data frame, nasalisation second
+pharyngealsNasIRRCast <- dcast(melt(pharyngealsNasIRR, id.vars=c("subjectNew", "wordTarget","raterNumber")), subjectNew~wordTarget+raterNumber)
+
+str(pharyngealsVQIRRCast)
+```
+
+### Intra-Class Correlations (ICC)
+We used ICCs to compute inter-rater reliability. For details see the article. We ran two types of tests. We wanted to check how consistent the raters were in their choices and also how they agree between each other. The agreements were reported in the article. We start by reporting the overall consistency and agreement levels for each of the VQ and Nasalisation experiments and then on the consistency and agreement on each word, i.e., an Item-based analysis.
+
+#### Voice Quality (VQ)
+We start with the VQ experiment.
+
+##### Consistency
+Below are the model specifications for the consistency.
+
+```{r}
+VQICCRatingConsWordAver <- icc(pharyngealsVQIRRCast[2:271],model="twoway",type="consistency",unit="average")
+
+VQICCRatingConsWordAver3aafw <- icc(pharyngealsVQIRRCast[2:7],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3aamw <- icc(pharyngealsVQIRRCast[8:13],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3eebv <- icc(pharyngealsVQIRRCast[14:19],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3eebw <- icc(pharyngealsVQIRRCast[20:25],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3eenw <- icc(pharyngealsVQIRRCast[26:31],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3iishw <- icc(pharyngealsVQIRRCast[32:37],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3oo3v <- icc(pharyngealsVQIRRCast[38:43],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3oo3w <- icc(pharyngealsVQIRRCast[44:49],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver3oonw <- icc(pharyngealsVQIRRCast[50:55],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7aadw <- icc(pharyngealsVQIRRCast[56:61],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7eefv <- icc(pharyngealsVQIRRCast[62:67],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7eefw <- icc(pharyngealsVQIRRCast[68:73],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7enw <- icc(pharyngealsVQIRRCast[74:79],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7ookw <- icc(pharyngealsVQIRRCast[80:85],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAver7oomw <- icc(pharyngealsVQIRRCast[86:91],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverbaa3w <- icc(pharyngealsVQIRRCast[92:97],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverbeetw <- icc(pharyngealsVQIRRCast[98:103],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverbii3v <- icc(pharyngealsVQIRRCast[104:109],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverbii3w <- icc(pharyngealsVQIRRCast[110:115],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverbooshw <- icc(pharyngealsVQIRRCast[116:121],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdaasw <- icc(pharyngealsVQIRRCast[122:127],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdiinw <- icc(pharyngealsVQIRRCast[128:133],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdjuu3v <- icc(pharyngealsVQIRRCast[134:139],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdjuu3w <- icc(pharyngealsVQIRRCast[140:145],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdoomv <- icc(pharyngealsVQIRRCast[146:151],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverdoomw <- icc(pharyngealsVQIRRCast[152:157],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverloo7w <- icc(pharyngealsVQIRRCast[158:163],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvermaatv <- icc(pharyngealsVQIRRCast[164:169],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvermaatw <- icc(pharyngealsVQIRRCast[170:175],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvermoozw <- icc(pharyngealsVQIRRCast[176:181],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvermuunw <- icc(pharyngealsVQIRRCast[182:187],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvermuusw <- icc(pharyngealsVQIRRCast[188:193],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernaa7v <- icc(pharyngealsVQIRRCast[194:199],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernaa7w <- icc(pharyngealsVQIRRCast[200:205],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernaamv <- icc(pharyngealsVQIRRCast[206:211],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernaamw <- icc(pharyngealsVQIRRCast[212:217],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernoo3v <- icc(pharyngealsVQIRRCast[218:223],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernoo3w <- icc(pharyngealsVQIRRCast[224:229],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernoomw <- icc(pharyngealsVQIRRCast[230:235],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernuu7v <- icc(pharyngealsVQIRRCast[236:241],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAvernuu7w <- icc(pharyngealsVQIRRCast[242:247],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAversaamv <- icc(pharyngealsVQIRRCast[248:253],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAversaamw <- icc(pharyngealsVQIRRCast[254:259],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverzaa7w <- icc(pharyngealsVQIRRCast[260:265],model="twoway",type="consistency",unit="average")
+VQICCRatingConsWordAverzii7w <- icc(pharyngealsVQIRRCast[266:271],model="twoway",type="consistency",unit="average")
+
+```
+
+##### Agreement
+Below are the model specifications for the agreement
+
+```{r}
+
+VQICCRatingAgreeWordAver <- icc(pharyngealsVQIRRCast[2:271],model="twoway",type="agreement",unit="average")
+
+VQICCRatingAgreeWordAver3aafw <- icc(pharyngealsVQIRRCast[2:7],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3aamw <- icc(pharyngealsVQIRRCast[8:13],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3eebv <- icc(pharyngealsVQIRRCast[14:19],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3eebw <- icc(pharyngealsVQIRRCast[20:25],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3eenw <- icc(pharyngealsVQIRRCast[26:31],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3iishw <- icc(pharyngealsVQIRRCast[32:37],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3oo3v <- icc(pharyngealsVQIRRCast[38:43],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3oo3w <- icc(pharyngealsVQIRRCast[44:49],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver3oonw <- icc(pharyngealsVQIRRCast[50:55],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7aadw <- icc(pharyngealsVQIRRCast[56:61],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7eefv <- icc(pharyngealsVQIRRCast[62:67],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7eefw <- icc(pharyngealsVQIRRCast[68:73],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7enw <- icc(pharyngealsVQIRRCast[74:79],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7ookw <- icc(pharyngealsVQIRRCast[80:85],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAver7oomw <- icc(pharyngealsVQIRRCast[86:91],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverbaa3w <- icc(pharyngealsVQIRRCast[92:97],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverbeetw <- icc(pharyngealsVQIRRCast[98:103],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverbii3v <- icc(pharyngealsVQIRRCast[104:109],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverbii3w <- icc(pharyngealsVQIRRCast[110:115],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverbooshw <- icc(pharyngealsVQIRRCast[116:121],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdaasw <- icc(pharyngealsVQIRRCast[122:127],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdiinw <- icc(pharyngealsVQIRRCast[128:133],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdjuu3v <- icc(pharyngealsVQIRRCast[134:139],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdjuu3w <- icc(pharyngealsVQIRRCast[140:145],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdoomv <- icc(pharyngealsVQIRRCast[146:151],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverdoomw <- icc(pharyngealsVQIRRCast[152:157],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverloo7w <- icc(pharyngealsVQIRRCast[158:163],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvermaatv <- icc(pharyngealsVQIRRCast[164:169],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvermaatw <- icc(pharyngealsVQIRRCast[170:175],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvermoozw <- icc(pharyngealsVQIRRCast[176:181],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvermuunw <- icc(pharyngealsVQIRRCast[182:187],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvermuusw <- icc(pharyngealsVQIRRCast[188:193],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernaa7v <- icc(pharyngealsVQIRRCast[194:199],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernaa7w <- icc(pharyngealsVQIRRCast[200:205],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernaamv <- icc(pharyngealsVQIRRCast[206:211],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernaamw <- icc(pharyngealsVQIRRCast[212:217],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernoo3v <- icc(pharyngealsVQIRRCast[218:223],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernoo3w <- icc(pharyngealsVQIRRCast[224:229],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernoomw <- icc(pharyngealsVQIRRCast[230:235],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernuu7v <- icc(pharyngealsVQIRRCast[236:241],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAvernuu7w <- icc(pharyngealsVQIRRCast[242:247],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAversaamv <- icc(pharyngealsVQIRRCast[248:253],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAversaamw <- icc(pharyngealsVQIRRCast[254:259],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverzaa7w <- icc(pharyngealsVQIRRCast[260:265],model="twoway",type="agreement",unit="average")
+VQICCRatingAgreeWordAverzii7w <- icc(pharyngealsVQIRRCast[266:271],model="twoway",type="agreement",unit="average")
+
+```
+
+#### Nasalisation
+We move to the nasalisation experiment.
+
+##### Consistency
+Below are the model specifications for the consistency.
+
+```{r}
+NasICCRatingConsWordAver <- icc(pharyngealsNasIRRCast[2:271],model="twoway",type="consistency",unit="average")
+
+NasICCRatingConsWordAver3aafw <- icc(pharyngealsNasIRRCast[2:7],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3aamw <- icc(pharyngealsNasIRRCast[8:13],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3eebv <- icc(pharyngealsNasIRRCast[14:19],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3eebw <- icc(pharyngealsNasIRRCast[20:25],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3eenw <- icc(pharyngealsNasIRRCast[26:31],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3iishw <- icc(pharyngealsNasIRRCast[32:37],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3oo3v <- icc(pharyngealsNasIRRCast[38:43],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3oo3w <- icc(pharyngealsNasIRRCast[44:49],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver3oonw <- icc(pharyngealsNasIRRCast[50:55],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7aadw <- icc(pharyngealsNasIRRCast[56:61],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7eefv <- icc(pharyngealsNasIRRCast[62:67],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7eefw <- icc(pharyngealsNasIRRCast[68:73],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7enw <- icc(pharyngealsNasIRRCast[74:79],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7ookw <- icc(pharyngealsNasIRRCast[80:85],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAver7oomw <- icc(pharyngealsNasIRRCast[86:91],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverbaa3w <- icc(pharyngealsNasIRRCast[92:97],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverbeetw <- icc(pharyngealsNasIRRCast[98:103],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverbii3v <- icc(pharyngealsNasIRRCast[104:109],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverbii3w <- icc(pharyngealsNasIRRCast[110:115],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverbooshw <- icc(pharyngealsNasIRRCast[116:121],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdaasw <- icc(pharyngealsNasIRRCast[122:127],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdiinw <- icc(pharyngealsNasIRRCast[128:133],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdjuu3v <- icc(pharyngealsNasIRRCast[134:139],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdjuu3w <- icc(pharyngealsNasIRRCast[140:145],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdoomv <- icc(pharyngealsNasIRRCast[146:151],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverdoomw <- icc(pharyngealsNasIRRCast[152:157],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverloo7w <- icc(pharyngealsNasIRRCast[158:163],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvermaatv <- icc(pharyngealsNasIRRCast[164:169],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvermaatw <- icc(pharyngealsNasIRRCast[170:175],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvermoozw <- icc(pharyngealsNasIRRCast[176:181],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvermuunw <- icc(pharyngealsNasIRRCast[182:187],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvermuusw <- icc(pharyngealsNasIRRCast[188:193],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernaa7v <- icc(pharyngealsNasIRRCast[194:199],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernaa7w <- icc(pharyngealsNasIRRCast[200:205],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernaamv <- icc(pharyngealsNasIRRCast[206:211],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernaamw <- icc(pharyngealsNasIRRCast[212:217],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernoo3v <- icc(pharyngealsNasIRRCast[218:223],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernoo3w <- icc(pharyngealsNasIRRCast[224:229],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernoomw <- icc(pharyngealsNasIRRCast[230:235],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernuu7v <- icc(pharyngealsNasIRRCast[236:241],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAvernuu7w <- icc(pharyngealsNasIRRCast[242:247],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAversaamv <- icc(pharyngealsNasIRRCast[248:253],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAversaamw <- icc(pharyngealsNasIRRCast[254:259],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverzaa7w <- icc(pharyngealsNasIRRCast[260:265],model="twoway",type="consistency",unit="average")
+NasICCRatingConsWordAverzii7w <- icc(pharyngealsNasIRRCast[266:271],model="twoway",type="consistency",unit="average")
+
+```
+
+##### Agreement
+Below are the model specifications for the agreement
+
+```{r}
+
+NasICCRatingAgreeWordAver <- icc(pharyngealsNasIRRCast[2:271],model="twoway",type="agreement",unit="average")
+
+NasICCRatingAgreeWordAver3aafw <- icc(pharyngealsNasIRRCast[2:7],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3aamw <- icc(pharyngealsNasIRRCast[8:13],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3eebv <- icc(pharyngealsNasIRRCast[14:19],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3eebw <- icc(pharyngealsNasIRRCast[20:25],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3eenw <- icc(pharyngealsNasIRRCast[26:31],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3iishw <- icc(pharyngealsNasIRRCast[32:37],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3oo3v <- icc(pharyngealsNasIRRCast[38:43],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3oo3w <- icc(pharyngealsNasIRRCast[44:49],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver3oonw <- icc(pharyngealsNasIRRCast[50:55],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7aadw <- icc(pharyngealsNasIRRCast[56:61],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7eefv <- icc(pharyngealsNasIRRCast[62:67],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7eefw <- icc(pharyngealsNasIRRCast[68:73],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7enw <- icc(pharyngealsNasIRRCast[74:79],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7ookw <- icc(pharyngealsNasIRRCast[80:85],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAver7oomw <- icc(pharyngealsNasIRRCast[86:91],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverbaa3w <- icc(pharyngealsNasIRRCast[92:97],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverbeetw <- icc(pharyngealsNasIRRCast[98:103],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverbii3v <- icc(pharyngealsNasIRRCast[104:109],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverbii3w <- icc(pharyngealsNasIRRCast[110:115],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverbooshw <- icc(pharyngealsNasIRRCast[116:121],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdaasw <- icc(pharyngealsNasIRRCast[122:127],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdiinw <- icc(pharyngealsNasIRRCast[128:133],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdjuu3v <- icc(pharyngealsNasIRRCast[134:139],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdjuu3w <- icc(pharyngealsNasIRRCast[140:145],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdoomv <- icc(pharyngealsNasIRRCast[146:151],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverdoomw <- icc(pharyngealsNasIRRCast[152:157],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverloo7w <- icc(pharyngealsNasIRRCast[158:163],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvermaatv <- icc(pharyngealsNasIRRCast[164:169],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvermaatw <- icc(pharyngealsNasIRRCast[170:175],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvermoozw <- icc(pharyngealsNasIRRCast[176:181],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvermuunw <- icc(pharyngealsNasIRRCast[182:187],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvermuusw <- icc(pharyngealsNasIRRCast[188:193],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernaa7v <- icc(pharyngealsNasIRRCast[194:199],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernaa7w <- icc(pharyngealsNasIRRCast[200:205],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernaamv <- icc(pharyngealsNasIRRCast[206:211],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernaamw <- icc(pharyngealsNasIRRCast[212:217],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernoo3v <- icc(pharyngealsNasIRRCast[218:223],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernoo3w <- icc(pharyngealsNasIRRCast[224:229],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernoomw <- icc(pharyngealsNasIRRCast[230:235],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernuu7v <- icc(pharyngealsNasIRRCast[236:241],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAvernuu7w <- icc(pharyngealsNasIRRCast[242:247],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAversaamv <- icc(pharyngealsNasIRRCast[248:253],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAversaamw <- icc(pharyngealsNasIRRCast[254:259],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverzaa7w <- icc(pharyngealsNasIRRCast[260:265],model="twoway",type="agreement",unit="average")
+NasICCRatingAgreeWordAverzii7w <- icc(pharyngealsNasIRRCast[266:271],model="twoway",type="agreement",unit="average")
+
+```
+
+### Getting coefficients
+Below, we use a a modified script that will allow us to get all coefficients from the models (thanks to Bodo Winter for sharing).
+
+```{r}
+###########################################
+#getting coefficients # Adapted from Bodo Winter
+###########################################
+
+## Get character vectors with all model names for full and null models:
+
+all_models <- grep('ICCRating', ls(), value = T)
+
+## Create an empty data frame to be filled with results from likelihood ratio tests:
+
+resultsICC <- data.frame(Type = character(length(all_models)),
+                              ICCVal = numeric(length(all_models)),
+                              lowerConfInt = numeric(length(all_models)),
+                              upperConfInt = numeric(length(all_models)),
+                              pValue = numeric(length(all_models)),
+                         stringsAsFactors=FALSE)
+
+## Loop through model names and append do data frame:
+
+for (i in 1:length(all_models)) {
+  this_full <- get(all_models[i])
+  
+  resultsICC[i, ]$Type <- this_full$type
+  resultsICC[i, ]$ICCVal <- this_full$value
+  resultsICC[i, ]$lowerConfInt <- this_full$lbound
+  resultsICC[i, ]$upperConfInt <- this_full$ubound
+  resultsICC[i, ]$pValue <- this_full$p.value
+}
+rownames(resultsICC) <- gsub('ICCRating', 'ICCRating', all_models)
+
+write.csv(resultsICC, file = "PhoneticaResultsICCRating.csv")
+
+```
+
+### Reading and subsetting the ICC data
+We have done some minor changes to the saved data-frame in terms of names, etc.. and so we read the data-frame again.
+We start by subsetting the data and creating four new data-frames for each of the VQ and Nasalisation experiments and the consistency and agreement. We then change factor levels.
+
+```{r}
+PhoneticaICCRatingWord <- read.csv("PhoneticaICCRatingWord.csv")
+
+# some subsetting
+PhoneticaICCRatingWordNasAgree <- PhoneticaICCRatingWord[which(PhoneticaICCRatingWord$experiment =='Nasalisation'
+                                                          & PhoneticaICCRatingWord$Type == 'agreement'),]
+
+PhoneticaICCRatingWordNasCons <- PhoneticaICCRatingWord[which(PhoneticaICCRatingWord$experiment =='Nasalisation'
+                                                               & PhoneticaICCRatingWord$Type == 'consistency'),]
+
+
+PhoneticaICCRatingWordVQAgree <- PhoneticaICCRatingWord[which(PhoneticaICCRatingWord$experiment =='Voice Quality'
+                                                               & PhoneticaICCRatingWord$Type == 'agreement'),]
+
+PhoneticaICCRatingWordVQCons <- PhoneticaICCRatingWord[which(PhoneticaICCRatingWord$experiment =='Voice Quality'
+                                                              & PhoneticaICCRatingWord$Type == 'consistency'),]
+
+### below is to be used to change levels of factor after subsetting
+
+PhoneticaICCRatingWordNasAgree$experiment <- factor(PhoneticaICCRatingWordNasAgree$experiment)
+PhoneticaICCRatingWordNasAgree$Type <- factor(PhoneticaICCRatingWordNasAgree$Type)
+
+
+PhoneticaICCRatingWordNasCons$experiment <- factor(PhoneticaICCRatingWordNasCons$experiment)
+PhoneticaICCRatingWordNasCons$Type <- factor(PhoneticaICCRatingWordNasCons$Type)
+
+
+PhoneticaICCRatingWordVQAgree$experiment <- factor(PhoneticaICCRatingWordVQAgree$experiment)
+PhoneticaICCRatingWordVQAgree$Type <- factor(PhoneticaICCRatingWordVQAgree$Type)
+
+
+PhoneticaICCRatingWordVQCons$experiment <- factor(PhoneticaICCRatingWordVQCons$experiment)
+PhoneticaICCRatingWordVQCons$Type <- factor(PhoneticaICCRatingWordVQCons$Type)
+
+```
+
+
+### Figures
+Below we change the order of the four data-frame according to the ICC value from lowest to highest. We then reorder the factor level "context". Then we change the name of each of the words into IPA (International Phonetic Alphabet). We create a new ordered factor and then we draw the figure.
+
+#### Voice Quality (VQ)
+We start with the first experiment on Voice Quality. Overall, the raters reported difficulties with their ratings of the voice quality experiment, mostly in deciding on the third category "tense". This showed in their consistency and agreements
+
+##### Consistency
+We start with the consistency
+
+###### Reordering and changing names
+```{r}
+## Consistency voice quality 
+
+ord.reRatingConsVQ <- PhoneticaICCRatingWordVQCons[order(PhoneticaICCRatingWordVQCons$ICCVal),]
+rownames(ord.reRatingConsVQ) <- NULL
+ord.reRatingConsVQ$context <- factor(ord.reRatingConsVQ$context)
+
+ord.reRatingConsVQ$context <- as.character(ord.reRatingConsVQ$context)
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7aad-w"] <- "\u0127a:d"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7eef-w"] <- "\u0127e:f"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7eef-v"] <- "\u0127e:f-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7en-w"] <- "\u0127enn"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7ook-w"] <- "\u0127o:k"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "7oom-w"] <- "\u0127o:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "loo7-w"] <- "lo:\u0127"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "naa7-w"] <- "na:\u0127"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "naa7-v"] <- "na:\u0127-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "nuu7-w"] <- "nu:\u0127"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "nuu7-v"] <- "nu:\u0127-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "zaa7-w"] <- "za:\u0127"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "zii7-w"] <- "zi:\u0127"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3aaf-w"] <- "ʕa:f"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3aam-w"] <- "ʕa:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3eeb-w"] <- "ʕe:b"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3eeb-v"] <- "ʕe:b-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3een-w"] <- "ʕe:n"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3iish-w"] <- "ʕa:ʃ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3oo3-w"] <- "ʕo:ʕ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "3oon-w"] <- "ʕo:n"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "baa3-w"] <- "ba:ʕ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "bii3-w"] <- "bi:ʕ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "bii3-v"] <- "bi:ʕ-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "boosh-w"] <- "bo:ʃ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "noo3-w"] <- "no:ʕ"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "noo3-v"] <- "no:ʕ-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "beet-w"] <- "be:t"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "daas-w"] <- "da:s"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "diin-w"] <- "di:n"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "doom-w"] <- "do:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "doom-v"] <- "do:m-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "beet-w"] <- "be:t"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "maat-w"] <- "ma:t"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "maat-v"] <- "ma:t-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "mooz-w"] <- "mo:z"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "muun-w"] <- "mu:n"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "muus-w"] <- "mu:s"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "naam-w"] <- "na:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "naam-v"] <- "na:m-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "noom-w"] <- "no:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "saam-w"] <- "sa:m"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "saam-v"] <- "sa:m-v"
+ord.reRatingConsVQ$context[ord.reRatingConsVQ$context == "beet-w"] <- "be:t"
+ord.reRatingConsVQ$context <- as.factor(ord.reRatingConsVQ$context)
+#
+ord.reRatingConsVQ$context <- as.vector(ord.reRatingConsVQ$context) #get rid of factors
+ord.reRatingConsVQ$context = factor(ord.reRatingConsVQ$context,ord.reRatingConsVQ$context) #add ordered factors back
+
+
+ord.reRatingConsVQ
+
+```
+
+###### Drawing the IRR figure
+We use the code below to draw the ICC with confidence intervals for the consistency in rating voice quality. 
+```{r fig.width=9, fig.height=5}
+
+## code below allows to draw the figure
+par(oma = c(0, 0, 0, 0))
+plot(1:45, ord.reRatingConsVQ$ICCVal, axes=FALSE, ylim=c(-3,1),
+     ylab="ICC. 95% CI", xlab="",cex=2,cex.lab=1.5,cex.main=1.5,
+     main="Consistency ICC for voice quality",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reRatingConsVQ$context), 
+     las=2,cex.lab=1.5,cex.axis=1.5)
+for(i in 1:45) segments(i,ord.reRatingConsVQ$lowerConfInt[i],
+                        i,ord.reRatingConsVQ$upperConfInt[i])
+
+abline(h = 0, lty=2)
+abline(v = 32.5, lty=2)
+
+```
+
+As can be seen from the figure above, the rater were generally consistent in their ratings as all the words, minus the first 6 received positive ratings. The ratings for the last 12 words showed a consistently statistically significant positive rating.
+
+##### Agreement
+We move to the agreement between raters
+
+###### Reordering and changing names
+```{r}
+## Agreement Voice Quality 
+
+ord.reRatingAgreeVQ <- PhoneticaICCRatingWordVQAgree[order(PhoneticaICCRatingWordVQAgree$ICCVal),]
+rownames(ord.reRatingAgreeVQ) <- NULL
+ord.reRatingAgreeVQ$context <- factor(ord.reRatingAgreeVQ$context)
+
+ord.reRatingAgreeVQ$context <- as.character(ord.reRatingAgreeVQ$context)
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7aad-w"] <- "\u0127a:d"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7eef-w"] <- "\u0127e:f"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7eef-v"] <- "\u0127e:f-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7en-w"] <- "\u0127enn"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7ook-w"] <- "\u0127o:k"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "7oom-w"] <- "\u0127o:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "loo7-w"] <- "lo:\u0127"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "naa7-w"] <- "na:\u0127"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "naa7-v"] <- "na:\u0127-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "nuu7-w"] <- "nu:\u0127"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "nuu7-v"] <- "nu:\u0127-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "zaa7-w"] <- "za:\u0127"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "zii7-w"] <- "zi:\u0127"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3aaf-w"] <- "ʕa:f"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3aam-w"] <- "ʕa:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3eeb-w"] <- "ʕe:b"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3eeb-v"] <- "ʕe:b-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3een-w"] <- "ʕe:n"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3iish-w"] <- "ʕa:ʃ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3oo3-w"] <- "ʕo:ʕ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "3oon-w"] <- "ʕo:n"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "baa3-w"] <- "ba:ʕ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "bii3-w"] <- "bi:ʕ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "bii3-v"] <- "bi:ʕ-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "boosh-w"] <- "bo:ʃ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "noo3-w"] <- "no:ʕ"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "noo3-v"] <- "no:ʕ-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "daas-w"] <- "da:s"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "diin-w"] <- "di:n"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "doom-w"] <- "do:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "doom-v"] <- "do:m-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "maat-w"] <- "ma:t"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "maat-v"] <- "ma:t-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "mooz-w"] <- "mo:z"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "muun-w"] <- "mu:n"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "muus-w"] <- "mu:s"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "naam-w"] <- "na:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "naam-v"] <- "na:m-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "noom-w"] <- "no:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "saam-w"] <- "sa:m"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "saam-v"] <- "sa:m-v"
+ord.reRatingAgreeVQ$context[ord.reRatingAgreeVQ$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeVQ$context <- as.factor(ord.reRatingAgreeVQ$context)
+
+
+ord.reRatingAgreeVQ$context <- as.vector(ord.reRatingAgreeVQ$context) #get rid of factors
+ord.reRatingAgreeVQ$context = factor(ord.reRatingAgreeVQ$context,ord.reRatingAgreeVQ$context) #add ordered factors back
+
+ord.reRatingAgreeVQ
+
+```
+
+###### Drawing the IRR figure
+
+```{r fig.width=9, fig.height=5}
+plot(1:45, ord.reRatingAgreeVQ$ICCVal, axes=FALSE, ylim=c(-1,1),
+     ylab="ICC. 95% CI", xlab="",cex=2,cex.lab=1.5,cex.main=1.5,
+     main="Agreement ICC for voice quality",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reRatingAgreeVQ$context), 
+     las=2,cex.lab=1.5,cex.axis=1.5)
+for(i in 1:45) segments(i,ord.reRatingAgreeVQ$lowerConfInt[i],
+                        i,ord.reRatingAgreeVQ$upperConfInt[i])
+abline(h = 0, lty=2)
+abline(v = 33.5, lty=2)
+```
+As with the consistency above, the raters agreed among themselves on the majority of words as these received positive ICCs. The last 12 again received an agreement in ratings that was statistically significant. Some words containing pharyngeals, and specifically the voiced pharyngeal, receive positive ratings.
+
+#### Nasalisation
+We move to the second experiment on Nasalisation. Overall, this experiment was slightly easier for the raters as evidenced by the consistency and agreement in their ICC scores.
+
+##### Consistency
+We start with the consistency
+
+###### Reordering and changing names
+
+```{r}
+## Consistency nasalisation 
+
+ord.reRatingConsNas <- PhoneticaICCRatingWordNasCons[order(PhoneticaICCRatingWordNasCons$ICCVal),]
+rownames(ord.reRatingConsNas) <- NULL
+ord.reRatingConsNas$context <- factor(ord.reRatingConsNas$context)
+
+ord.reRatingConsNas$context <- as.character(ord.reRatingConsNas$context)
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7aad-w"] <- "\u0127a:d"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7eef-w"] <- "\u0127e:f"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7eef-v"] <- "\u0127e:f-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7en-w"] <- "\u0127enn"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7ook-w"] <- "\u0127o:k"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "7oom-w"] <- "\u0127o:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "loo7-w"] <- "lo:\u0127"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "naa7-w"] <- "na:\u0127"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "naa7-v"] <- "na:\u0127-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "nuu7-w"] <- "nu:\u0127"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "nuu7-v"] <- "nu:\u0127-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "zaa7-w"] <- "za:\u0127"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "zii7-w"] <- "zi:\u0127"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3aaf-w"] <- "ʕa:f"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3aam-w"] <- "ʕa:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3eeb-w"] <- "ʕe:b"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3eeb-v"] <- "ʕe:b-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3een-w"] <- "ʕe:n"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3iish-w"] <- "ʕa:ʃ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3oo3-w"] <- "ʕo:ʕ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "3oon-w"] <- "ʕo:n"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "baa3-w"] <- "ba:ʕ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "bii3-w"] <- "bi:ʕ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "bii3-v"] <- "bi:ʕ-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "boosh-w"] <- "bo:ʃ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "noo3-w"] <- "no:ʕ"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "noo3-v"] <- "no:ʕ-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "beet-w"] <- "be:t"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "daas-w"] <- "da:s"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "diin-w"] <- "di:n"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "doom-w"] <- "do:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "doom-v"] <- "do:m-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "beet-w"] <- "be:t"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "maat-w"] <- "ma:t"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "maat-v"] <- "ma:t-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "mooz-w"] <- "mo:z"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "muun-w"] <- "mu:n"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "muus-w"] <- "mu:s"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "naam-w"] <- "na:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "naam-v"] <- "na:m-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "noom-w"] <- "no:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "saam-w"] <- "sa:m"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "saam-v"] <- "sa:m-v"
+ord.reRatingConsNas$context[ord.reRatingConsNas$context == "beet-w"] <- "be:t"
+ord.reRatingConsNas$context <- as.factor(ord.reRatingConsNas$context)
+
+
+ord.reRatingConsNas$context <- as.vector(ord.reRatingConsNas$context) #get rid of factors
+ord.reRatingConsNas$context = factor(ord.reRatingConsNas$context,ord.reRatingConsNas$context) #add ordered factors back
+
+
+ord.reRatingConsNas
+
+```
+
+###### Drawing the IRR figure
+
+```{r fig.width=9, fig.height=5}
+par(oma = c(0, 0, 0, 0))
+plot(1:45, ord.reRatingConsNas$ICCVal, axes=FALSE, ylim=c(-1,1),
+     ylab="ICC. 95% CI", xlab="",cex=2,cex.lab=1.5,cex.main=1.5,
+     main="Consistency ICC for nasalisation",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reRatingConsNas$context), 
+     las=2,cex.lab=1.5,cex.axis=1.5)
+for(i in 1:45) segments(i,ord.reRatingConsNas$lowerConfInt[i],
+                        i,ord.reRatingConsNas$upperConfInt[i])
+
+abline(h = 0, lty=2)
+abline(v = 21.5, lty=2)
+```
+The nasalisation experiment was somehow "easier" to raters as they were always consistent in their ratings with only two words received negative ICCs and nearly half of the words showing a statistically significant positive rating.
+
+##### Agreement
+We move to the agreement
+
+###### Reordering and changing names
+
+```{r}
+
+## Agreement nasalisation 
+
+ord.reRatingAgreeNas <- PhoneticaICCRatingWordNasAgree[order(PhoneticaICCRatingWordNasAgree$ICCVal),]
+rownames(ord.reRatingAgreeNas) <- NULL
+ord.reRatingAgreeNas$context <- factor(ord.reRatingAgreeNas$context)
+
+ord.reRatingAgreeNas$context <- as.character(ord.reRatingAgreeNas$context)
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7aad-w"] <- "\u0127a:d"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7eef-w"] <- "\u0127e:f"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7eef-v"] <- "\u0127e:f-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7en-w"] <- "\u0127enn"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7ook-w"] <- "\u0127o:k"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "7oom-w"] <- "\u0127o:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "loo7-w"] <- "lo:\u0127"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "naa7-w"] <- "na:\u0127"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "naa7-v"] <- "na:\u0127-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "nuu7-w"] <- "nu:\u0127"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "nuu7-v"] <- "nu:\u0127-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "zaa7-w"] <- "za:\u0127"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "zii7-w"] <- "zi:\u0127"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3aaf-w"] <- "ʕa:f"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3aam-w"] <- "ʕa:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3eeb-w"] <- "ʕe:b"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3eeb-v"] <- "ʕe:b-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3een-w"] <- "ʕe:n"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3iish-w"] <- "ʕa:ʃ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3oo3-w"] <- "ʕo:ʕ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "3oon-w"] <- "ʕo:n"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "baa3-w"] <- "ba:ʕ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "bii3-w"] <- "bi:ʕ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "bii3-v"] <- "bi:ʕ-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "boosh-w"] <- "bo:ʃ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "noo3-w"] <- "no:ʕ"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "noo3-v"] <- "no:ʕ-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "daas-w"] <- "da:s"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "diin-w"] <- "di:n"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "doom-w"] <- "do:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "doom-v"] <- "do:m-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "maat-w"] <- "ma:t"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "maat-v"] <- "ma:t-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "mooz-w"] <- "mo:z"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "muun-w"] <- "mu:n"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "muus-w"] <- "mu:s"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "naam-w"] <- "na:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "naam-v"] <- "na:m-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "noom-w"] <- "no:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "saam-w"] <- "sa:m"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "saam-v"] <- "sa:m-v"
+ord.reRatingAgreeNas$context[ord.reRatingAgreeNas$context == "beet-w"] <- "be:t"
+ord.reRatingAgreeNas$context <- as.factor(ord.reRatingAgreeNas$context)
+
+
+ord.reRatingAgreeNas$context <- as.vector(ord.reRatingAgreeNas$context) #get rid of factors
+ord.reRatingAgreeNas$context = factor(ord.reRatingAgreeNas$context,ord.reRatingAgreeNas$context) #add ordered factors back
+
+
+ord.reRatingAgreeNas
+
+```
+
+###### Drawing the IRR figure
+
+```{r fig.width=9, fig.height=5}
+par(oma = c(0, 0, 0, 0))
+plot(1:45, ord.reRatingAgreeNas$ICCVal, axes=FALSE, ylim=c(-1,1),
+     ylab="ICC. 95% CI", xlab="",cex=2,cex.lab=1.5,cex.main=1.5,
+     main="Agreement ICC for nasalisation",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reRatingAgreeNas$context), 
+     las=2,cex.lab=1.5,cex.axis=1.5)
+for(i in 1:45) segments(i,ord.reRatingAgreeNas$lowerConfInt[i],
+                        i,ord.reRatingAgreeNas$upperConfInt[i])
+
+abline(h = 0, lty=2)
+abline(v = 20.5, lty=2)
+```
+Again, only the last two words showed a negative agreement between raters, with nearly half of the words receiving a statistically significant positive rating. And as expected, most of the words having nasal sounds sounds, received the highest ratings, with some having both nasals and pharyngeals receiving positive ratings.
+
+### Conclusion
+Given the level of variance observed in the ICC scores for both consistency and agreements, it was necessary to use a statistical technique that takes into account this. It is possible that the raters were variables in some of their responses due to variable productions by the producing subjects and/or by the inherent differences between the raters.  
+Below we report on the results of the Cumulative Logit Mixed Model with subjects, raters and items as random effects.
+
+## Cumulative Logit Mixed Models (clmm)
 The data were analysed using Cumulative Link Mixed Models (CLMM) using the "ordinal" package. 
 
 Given the structure of the data, we used a random effects structure to account for the design. A crossed random effects structure (for the producing subjects, the raters and the items) was used. A by-rater random slope for Context was used as it improved the model fit compared to a model with it. 
@@ -32,9 +750,9 @@ Our outcome is the response entered as a factor (3 for Voice Quality; 5 for Nasa
 
 We compared various combinations, e.g., by subject and item random slopes; interactions with vowel, etc. and all these did not improve the model fit. Hence the models reported below are the optimal ones 
 
-## Models
+### Models
 
-### Loading packages
+#### Loading packages
 Start by loading packages and install those that are not installed
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
@@ -44,7 +762,8 @@ for(p in requiredPackages){
   library(p,character.only = TRUE)
 }
 ```
-### Reading the data
+
+#### Reading the data
 We then read in the data and look at the structure to verify the class of each column.
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 percVQDF <- read.csv("percVQDF.csv")
@@ -52,8 +771,9 @@ percNasDF <- read.csv("percNasDF.csv")
 str(percVQDF)
 str(percNasDF)
 ```
-### Changing a few things
-We are changing a few things in both dataframes
+
+#### Changing a few things
+We are changing a few things in both data-frames
 
 1. Changing type of "response" to factor to suite the Cumulative Logit Mixed Model
 
@@ -120,47 +840,65 @@ levels(percNasDF$Context)
 levels(percNasDF$ContextIPA)
 ```
 
-## Model specifications
+### Model specifications
 As can be seem from the results of system time, it took roungly one hour to run the first model with a 4-Core machine running Microsoft R Open version 3.5.0 that ran the model using parallel computing (total around 4:30 hours). With the base R, it may take at least double this time to run, if not more given that with base R, only one core is used (unless specifically using parallel computing).
 
-### Voice Quality (VQ) 
+#### Voice Quality (VQ) 
+Below is our model specification for the full model that improved the model fit (we have tried various combinations, including by-Subject and by-Item random slopes for context; adding vowel as a fixed and random slope; consonant*vowel interactions, etc. However all these models either did not converge or did not improve the model fit compared to our model below)
 
+##### Full model
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 system.time(fullCLMMVQSlope <- clmm(Response ~ Context + (1|Subject)+(1|Item)+(Context|Rater), data=percVQDF))
-system.time(fullCLMMVQNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percVQDF))
 ```
 
-### Nasalisation
+##### Null model
 
+```{r}
+system.time(fullCLMMVQNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percVQDF))
+
+```
+
+#### Nasalisation
+Below is our model specification for the full model that improved the model fit (we have tried various combinations, including by-Subject and by-Item random slopes for context; adding vowel as a fixed and random slope; consonant*vowel interactions, etc. However all these models either did not converge or did not improve the model fit compared to our model below)
+
+##### Full model
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 system.time(fullCLMMNasSlope <- clmm(Response ~ Context + (1|Subject)+(1|Item)+(Context|Rater), data=percNasDF))
-system.time(fullCLMMNasNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percNasDF))
 ```
 
-## Results
+##### Null model
+
+```{r}
+system.time(fullCLMMNasNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percNasDF))
+
+```
+
+### Results
 The results below are divided into those on Voice Quality (VQ) followed by those on Nasalisation.  
 
-### Voice Quality (VQ)
+#### Voice Quality (VQ)
 
-#### Model comparisons
+##### Model comparisons
 
 Through model comparison between the optimal model and the null model (aka Intercept only model), the results show that using our optimal model improved the model fit. 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 anova(fullCLMMVQNull,fullCLMMVQSlope)
 ```
 
-#### Summary
+##### Summary
 Next the summary presented below shows the results for each of the coefficients (minus the Intercept) and of the thresholds (1|2 and 2|3). 
 
 Starting with the threshlods, the results show that overall, a decrease in ratings of tense voice quality is obtained for ratings between 1 and 2, which increases with ratings between 2 to 3. The coefficients of the 12 levels of the fixed effect "Context" show either negative or positive values. The negative ones indicate that the ratings of "tense" are decreased in these contexts (e.g., o-o or n-o) which obtained lower betas compared to the reference value "Isolation". All positive values are associated with increase in ratings of "tense" voice quality, though some are not statistically significant.
+
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 summary(fullCLMMVQSlope)
 ```
 
-#### Figure
+##### Figure
 The summary of the results showed some statistically significant coefficients that displayed an association with increased ratings of "tense". To allow us to visualise the ratings, we use the script below, which is a modified version of two scripts (see references in article). 
 
 The "beta" is the coefficient for each level of the fixed effect "Context" and "Theta" is the coefficient for each threshold of the ratings "Response", 1|2, 2|3, etc...
+
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 ## below changes the margins
@@ -182,23 +920,26 @@ legend(par('usr')[2], par('usr')[4], bty='n', xpd=NA,lty=1, col=c("black", "red"
 
 The figure above show that ratings of "Breathy" received less than 15% specifically and this was mainly either in the "Isolation" context or contexts with nasal consonants. This same group showed increase in ratings of "Modal" voice at a rate close to 75%. Ratings associated with the "Tense" voice increased steadily from this first group until reaching the pharyngeal contexts, with the highest ratings of "Tense" being present in /ʕ-ʕ/ context at a rate of 80%, with the remaining 20% being associated with "Modal" voice
 
-### Nasalisation
+#### Nasalisation
 
-#### Model comparisons
+##### Model comparisons
 
 With Nasalisation, model comparisons showed again an improvement of the model fit with our optimal model. 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 anova(fullCLMMNasNull,fullCLMMNasSlope)
 ```
 
-#### Summary
+##### Summary
 
-The summary of the model showed again a steady increase in ratings associated with nasal from 1 to 5. Ratings of 1|2 and 2|3 are not statistically significant; those from 3 to 5 are statistically and significantly associated with nasalisation. The coefficients of the 12 levels of the fixed effect are either negative, i.e., not associated with ratings of nasalisation, specifically when an oral context is in initial position, or when a pharyngeal is associated with an oral context. When pharyngeals are associated with nasals, ratings of nasalisation are increased.   
+The summary of the model showed again a steady increase in ratings associated with nasal from 1 to 5. Ratings of 1|2 and 2|3 are not statistically significant; those from 3 to 5 are statistically and significantly associated with nasalisation. The coefficients of the 12 levels of the fixed effect are either negative, i.e., not associated with ratings of nasalisation, specifically when an oral context is in initial position, or when a pharyngeal is associated with an oral context. When pharyngeals are associated with nasals, ratings of nasalisation are increased.
+
+
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 summary(fullCLMMNasSlope)
 ```
 
-#### Figure
+
+##### Figure
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 ## below changes the margins
 par(oma=c(1, 0, 0, 3),mgp=c(2, 1, 0))
@@ -220,3 +961,399 @@ legend(par('usr')[2], par('usr')[4], bty='n', xpd=NA,lty=1, col=c("black", "red"
 ```
 
 The figure above shows how two groups are formed. The first group includes all oral contexts, Isolation and pharyngeals either on their own or with an oral context. The second group include all nasal contexts and those including pharyngeals and nasals. It is interesting to see that the percept of nasality is increased when a pharyngeal is associated with a nasal context; when associated with an oral context, the ratings are mostly "Oral". The context "n-o" and "n-n" received the highest ratings of "Nasal" (4 and 5) with a sum of around 85-90%. This was followed by both "n-ʕ" and "ʕ-n" at a combined rating of around 80%.
+
+### Exploring random effects
+This section is not part of the analsyes presented in the article, but are crucial at understanding how the rating experiment worked and how the random factors were crucial in generalising the results. Without including random effects, the model would have provided wrong predictions, given that our subjects, raters and words showed clear variance. This was taken into account in the models presented above.
+
+#### Voice Quality (VQ)
+
+##### Preprocessing data
+We start by preprocessing the data. We create data-frames with intercepts and variances of all random effects; the first column is the grouping factor, followed by 5 columns of intercepts, columns 7-11 are the variances.
+```{r}
+#### 
+# 
+
+#getting betas
+betasVQ <- as.data.frame(fullCLMMVQSlope$beta)
+
+# getting random effects coeficients and conditional variance
+# for subjects
+randomsVQSubject <- as.data.frame(ranef(fullCLMMVQSlope, condVar = F)$Subject)
+varVQSubject     <- as.data.frame(condVar(fullCLMMVQSlope)$Subject)
+
+dfVQSubject      <- merge(randomsVQSubject, varVQSubject, by ="row.names")
+betasVQ
+dfVQSubject
+subRanefVQSubj <- fullCLMMVQSlope$ranef[46:54]
+subcondVarVQSubj <- condVar(fullCLMMVQSlope)$Subject[1]
+subcondVarVQSubj <- matrix(as.numeric(unlist(subcondVarVQSubj)),nrow=nrow(subcondVarVQSubj)) 
+
+
+# getting random effects coeficients and conditional variance
+# for raters
+randomsVQRater <- as.data.frame(ranef(fullCLMMVQSlope, condVar = F)$Rater)
+varVQRater     <- as.data.frame(condVar(fullCLMMVQSlope)$Rater)
+dfVQRater      <- merge(randomsVQRater, varVQRater, by ="row.names")
+dfVQRater
+subRanefVQRater <- fullCLMMVQSlope$ranef[55:60]
+subcondVarVQRater <- condVar(fullCLMMVQSlope)$Rater[1]
+subcondVarVQRater <- matrix(as.numeric(unlist(subcondVarVQRater)),nrow=nrow(subcondVarVQRater)) 
+
+# getting random effects coeficients and conditional variance
+# for words
+randomsVQWord <- as.data.frame(ranef(fullCLMMVQSlope, condVar = F)$Item)
+varVQWord     <- as.data.frame(condVar(fullCLMMVQSlope)$Item)
+dfVQWord      <- merge(randomsVQWord, varVQWord, by ="row.names")
+dfVQWord
+subRanefVQWord <- fullCLMMVQSlope$ranef[1:45]
+subcondVarVQWord <- condVar(fullCLMMVQSlope)$Item[1]
+subcondVarVQWord <- matrix(as.numeric(unlist(subcondVarVQWord)),nrow=nrow(subcondVarVQWord)) 
+
+```
+
+We then reorder the random effects by their labels. We also change a few things
+
+```{r}
+labelsVQ <- c(levels(percVQDF$Item),levels(percVQDF$Subject),
+             levels(percVQDF$Rater))
+
+ord.reLabelVQ <- as.data.frame(fullCLMMVQSlope$ranef[1:60])
+ord.reLabelVQ$var <- row.names(fullCLMMVQSlope$ranef[1:60])
+ord.reLabelVQ <- merge(labelsVQ,ord.reLabelVQ,by ="row.names")
+ord.reLabelVQ
+
+ord.reLabelVQ$Row.names <- as.numeric(ord.reLabelVQ$Row.names)
+ord.reLabelVQ <- ord.reLabelVQ[ order(ord.reLabelVQ[,1]), ]
+rownames(ord.reLabelVQ) <- NULL
+
+ord.reLabelVQ
+
+ord.reLabelVQWord <- ord.reLabelVQ[1:45,]
+ord.reLabelVQSubj <- ord.reLabelVQ[46:54,]
+ord.reLabelVQRater <- ord.reLabelVQ[55:60,]
+ord.reLabelVQWord$x <- factor(ord.reLabelVQWord$x)
+ord.reLabelVQSubj$x <- factor(ord.reLabelVQSubj$x)
+ord.reLabelVQRater$x <- factor(ord.reLabelVQRater$x)
+
+#changing items from transliteration to IPA
+ord.reLabelVQWord$x <- as.character(ord.reLabelVQWord$x)
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7aad-w"] <- "\u0127a:d"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7eef-w"] <- "\u0127e:f"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7eef-v"] <- "\u0127e:f-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7en-w"] <- "\u0127enn"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7ook-w"] <- "\u0127o:k"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "7oom-w"] <- "\u0127o:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "loo7-w"] <- "lo:\u0127"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "naa7-w"] <- "na:\u0127"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "naa7-v"] <- "na:\u0127-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "nuu7-w"] <- "nu:\u0127"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "nuu7-v"] <- "nu:\u0127-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "zaa7-w"] <- "za:\u0127"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "zii7-w"] <- "zi:\u0127"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3aaf-w"] <- "ʕa:f"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3aam-w"] <- "ʕa:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3eeb-w"] <- "ʕe:b"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3eeb-v"] <- "ʕe:b-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3een-w"] <- "ʕe:n"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3iish-w"] <- "ʕa:ʃ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3oo3-w"] <- "ʕo:ʕ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "3oon-w"] <- "ʕo:n"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "baa3-w"] <- "ba:ʕ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "bii3-w"] <- "bi:ʕ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "bii3-v"] <- "bi:ʕ-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "boosh-w"] <- "bo:ʃ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "noo3-w"] <- "no:ʕ"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "noo3-v"] <- "no:ʕ-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "beet-w"] <- "be:t"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "daas-w"] <- "da:s"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "diin-w"] <- "di:n"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "doom-w"] <- "do:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "doom-v"] <- "do:m-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "beet-w"] <- "be:t"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "maat-w"] <- "ma:t"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "maat-v"] <- "ma:t-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "mooz-w"] <- "mo:z"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "muun-w"] <- "mu:n"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "muus-w"] <- "mu:s"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "naam-w"] <- "na:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "naam-v"] <- "na:m-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "noom-w"] <- "no:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "saam-w"] <- "sa:m"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "saam-v"] <- "sa:m-v"
+ord.reLabelVQWord$x[ord.reLabelVQWord$x == "beet-w"] <- "be:t"
+ord.reLabelVQWord$x <- as.factor(ord.reLabelVQWord$x)
+
+# reordering
+ord.reLabelVQWord <- ord.reLabelVQWord %>% arrange(`fullCLMMVQSlope$ranef[1:60]`)
+
+ord.reLabelVQWord$x <- as.vector(ord.reLabelVQWord$x) #get rid of factors
+ord.reLabelVQWord$x = factor(ord.reLabelVQWord$x,ord.reLabelVQWord$x) #add ordered factors back
+
+
+ord.reLabelVQSubj <- ord.reLabelVQSubj %>% arrange(`fullCLMMVQSlope$ranef[1:60]`)
+
+ord.reLabelVQSubj$x <- as.vector(ord.reLabelVQSubj$x) #get rid of factors
+ord.reLabelVQSubj$x = factor(ord.reLabelVQSubj$x,ord.reLabelVQSubj$x) #add ordered factors back
+
+
+ord.reLabelVQRater <- ord.reLabelVQRater %>% arrange(`fullCLMMVQSlope$ranef[1:60]`)
+
+ord.reLabelVQRater$x <- as.vector(ord.reLabelVQRater$x) #get rid of factors
+ord.reLabelVQRater$x = factor(ord.reLabelVQRater$x,ord.reLabelVQRater$x) #add ordered factors back
+
+```
+
+
+##### Figures
+
+###### Subjects
+
+```{r}
+ciVQSubj <- subRanefVQSubj + qnorm(0.975) * sqrt(as.numeric(subcondVarVQSubj)) %o% c(-1, 1)
+ord.reVQSubj <- order(subRanefVQSubj)
+ciVQSubj <- ciVQSubj[order(subRanefVQSubj),]
+plot(subRanefVQSubj[ord.reVQSubj], 1:9, axes=FALSE, xlim=range(ciVQSubj),
+     xlab="Subject variation", ylab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Subject VQ",cex.axis=1.5)
+axis(1,cex.lab=2,cex.axis=1.5)
+axis(2,at=1:9, labels = levels(ord.reLabelVQSubj$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:9) segments(ciVQSubj[i,1], i, ciVQSubj[i, 2],i)
+abline(v = 0, lty=2)
+```
+
+It is interesting to see that not all subjects (who produced the items) were rated as more or less "tense". The first two subjects (2 and 3) contributed more to the percept of "tense" voice quality whereas speakers 6, 9 and 4, contributed less to this percept.  
+
+###### Raters
+```{r}
+
+ciVQRater <- subRanefVQRater + qnorm(0.975) * sqrt(as.numeric(subcondVarVQRater)) %o% c(-1, 1)
+ord.reVQRater <- order(subRanefVQRater)
+ciVQRater <- ciVQRater[order(subRanefVQRater),]
+plot(subRanefVQRater[ord.reVQRater], 1:6, axes=FALSE, xlim=range(ciVQRater),
+     xlab="Rater variation", ylab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Rater VQ",cex.axis=1.5)
+axis(1,cex.lab=2,cex.axis=1.5)
+axis(2,at=1:6, labels = levels(ord.reLabelVQRater$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:6) segments(ciVQRater[i,1], i, ciVQRater[i, 2],i)
+abline(v = 0, lty=2)
+
+```
+
+With respect to raters, it is interesting to see that there is a clear split between raters (that was already picked up in the IRR analyses above). The first three (2, 5 and 6) were more likely to provide postive responses to "tense" whereas 1 and 4 (and potentially 3) were more conservative in their responses. R01 is the first author and R02 is the second. This shows that R01 is more conservative in their responses than R02.
+
+###### Items
+```{r fig.width=9, fig.height=5}
+
+ciVQWord <- subRanefVQWord + qnorm(0.975) * sqrt(as.numeric(subcondVarVQWord)) %o% c(-1, 1)
+ord.reVQWord <- order(subRanefVQWord)
+ciVQWord <- ciVQWord[order(subRanefVQWord),]
+par(oma = c(0, 1.5, 0, 0))
+plot(1:45,subRanefVQWord[ord.reVQWord], axes=FALSE, ylim=range(ciVQWord),
+       ylab="Item variation", xlab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Item VQ",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reLabelVQWord$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:45) segments(i, ciVQWord[i,1], i, ciVQWord[i, 2])
+abline(h = 0, lty=2)
+```
+
+With item variation, not all words contributed positively to the "tense" quality and there is a clear gradation in impact of words on ratings. This is important to take into account of course in our model
+
+#### Nasalisation
+
+##### Preprocessing data
+We start by preprocessing the data. We create data-frames with intercepts and variances of all random effects; the first column is the grouping factor, followed by 5 columns of intercepts, columns 7-11 are the variances.
+```{r}
+#### 
+# 
+
+#getting betas
+betasNas <- as.data.frame(fullCLMMNasSlope$beta)
+
+# getting random effects coeficients and conditional variance
+# for subjects
+randomsNasSubject <- as.data.frame(ranef(fullCLMMNasSlope, condVar = F)$Subject)
+varNasSubject     <- as.data.frame(condVar(fullCLMMNasSlope)$Subject)
+
+dfNasSubject      <- merge(randomsNasSubject, varNasSubject, by ="row.names")
+betasNas
+dfNasSubject
+subRanefNasSubj <- fullCLMMNasSlope$ranef[46:54]
+subcondVarNasSubj <- condVar(fullCLMMNasSlope)$Subject[1]
+subcondVarNasSubj <- matrix(as.numeric(unlist(subcondVarNasSubj)),nrow=nrow(subcondVarNasSubj)) 
+
+
+# getting random effects coeficients and conditional variance
+# for raters
+randomsNasRater <- as.data.frame(ranef(fullCLMMNasSlope, condVar = F)$Rater)
+varNasRater     <- as.data.frame(condVar(fullCLMMNasSlope)$Rater)
+dfNasRater      <- merge(randomsNasRater, varNasRater, by ="row.names")
+dfNasRater
+subRanefNasRater <- fullCLMMNasSlope$ranef[55:60]
+subcondVarNasRater <- condVar(fullCLMMNasSlope)$Rater[1]
+subcondVarNasRater <- matrix(as.numeric(unlist(subcondVarNasRater)),nrow=nrow(subcondVarNasRater)) 
+
+# getting random effects coeficients and conditional variance
+# for words
+randomsNasWord <- as.data.frame(ranef(fullCLMMNasSlope, condVar = F)$Item)
+varNasWord     <- as.data.frame(condVar(fullCLMMNasSlope)$Item)
+dfNasWord      <- merge(randomsNasWord, varNasWord, by ="row.names")
+dfNasWord
+subRanefNasWord <- fullCLMMNasSlope$ranef[1:45]
+subcondVarNasWord <- condVar(fullCLMMNasSlope)$Item[1]
+subcondVarNasWord <- matrix(as.numeric(unlist(subcondVarNasWord)),nrow=nrow(subcondVarNasWord)) 
+
+```
+
+We then reorder the random effects by their labels. We also change a few things
+
+```{r}
+labelsNas <- c(levels(percNasDF$Item),levels(percNasDF$Subject),levels(percNasDF$Rater))
+
+ord.reLabelNas <- as.data.frame(fullCLMMNasSlope$ranef[1:60])
+ord.reLabelNas$var <- row.names(fullCLMMNasSlope$ranef[1:60])
+ord.reLabelNas <- merge(labelsNas,ord.reLabelNas,by ="row.names")
+ord.reLabelNas
+
+ord.reLabelNas$Row.names <- as.numeric(ord.reLabelNas$Row.names)
+ord.reLabelNas <- ord.reLabelNas[ order(ord.reLabelNas[,1]), ]
+rownames(ord.reLabelNas) <- NULL
+
+ord.reLabelNas
+
+ord.reLabelNasWord <- ord.reLabelNas[1:45,]
+ord.reLabelNasSubj <- ord.reLabelNas[46:54,]
+ord.reLabelNasRater <- ord.reLabelNas[55:60,]
+ord.reLabelNasWord$x <- factor(ord.reLabelNasWord$x)
+ord.reLabelNasSubj$x <- factor(ord.reLabelNasSubj$x)
+ord.reLabelNasRater$x <- factor(ord.reLabelNasRater$x)
+
+#changing items from transliteration to IPA
+ord.reLabelNasWord$x <- as.character(ord.reLabelNasWord$x)
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7aad-w"] <- "\u0127a:d"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7eef-w"] <- "\u0127e:f"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7eef-v"] <- "\u0127e:f-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7en-w"] <- "\u0127enn"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7ook-w"] <- "\u0127o:k"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "7oom-w"] <- "\u0127o:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "loo7-w"] <- "lo:\u0127"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "naa7-w"] <- "na:\u0127"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "naa7-v"] <- "na:\u0127-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "nuu7-w"] <- "nu:\u0127"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "nuu7-v"] <- "nu:\u0127-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "zaa7-w"] <- "za:\u0127"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "zii7-w"] <- "zi:\u0127"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3aaf-w"] <- "ʕa:f"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3aam-w"] <- "ʕa:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3eeb-w"] <- "ʕe:b"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3eeb-v"] <- "ʕe:b-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3een-w"] <- "ʕe:n"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3iish-w"] <- "ʕa:ʃ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3oo3-w"] <- "ʕo:ʕ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3oo3-v"] <- "ʕo:ʕ-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "3oon-w"] <- "ʕo:n"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "baa3-w"] <- "ba:ʕ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "bii3-w"] <- "bi:ʕ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "bii3-v"] <- "bi:ʕ-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "boosh-w"] <- "bo:ʃ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "djuu3-w"] <- "d͡ʒu:ʕ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "djuu3-v"] <- "d͡ʒu:ʕ-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "noo3-w"] <- "no:ʕ"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "noo3-v"] <- "no:ʕ-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "beet-w"] <- "be:t"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "daas-w"] <- "da:s"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "diin-w"] <- "di:n"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "doom-w"] <- "do:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "doom-v"] <- "do:m-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "beet-w"] <- "be:t"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "maat-w"] <- "ma:t"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "maat-v"] <- "ma:t-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "mooz-w"] <- "mo:z"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "muun-w"] <- "mu:n"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "muus-w"] <- "mu:s"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "naam-w"] <- "na:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "naam-v"] <- "na:m-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "noom-w"] <- "no:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "saam-w"] <- "sa:m"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "saam-v"] <- "sa:m-v"
+ord.reLabelNasWord$x[ord.reLabelNasWord$x == "beet-w"] <- "be:t"
+ord.reLabelNasWord$x <- as.factor(ord.reLabelNasWord$x)
+
+# reordering
+ord.reLabelNasWord <- ord.reLabelNasWord %>% arrange(`fullCLMMNasSlope$ranef[1:60]`)
+
+ord.reLabelNasWord$x <- as.vector(ord.reLabelNasWord$x) #get rid of factors
+ord.reLabelNasWord$x = factor(ord.reLabelNasWord$x,ord.reLabelNasWord$x) #add ordered factors back
+
+
+ord.reLabelNasSubj <- ord.reLabelNasSubj %>% arrange(`fullCLMMNasSlope$ranef[1:60]`)
+
+ord.reLabelNasSubj$x <- as.vector(ord.reLabelNasSubj$x) #get rid of factors
+ord.reLabelNasSubj$x = factor(ord.reLabelNasSubj$x,ord.reLabelNasSubj$x) #add ordered factors back
+
+
+ord.reLabelNasRater <- ord.reLabelNasRater %>% arrange(`fullCLMMNasSlope$ranef[1:60]`)
+
+ord.reLabelNasRater$x <- as.vector(ord.reLabelNasRater$x) #get rid of factors
+ord.reLabelNasRater$x = factor(ord.reLabelNasRater$x,ord.reLabelNasRater$x) #add ordered factors back
+
+```
+
+
+##### Figures
+
+###### Subjects
+
+```{r}
+ciNasSubj <- subRanefNasSubj + qnorm(0.975) * sqrt(as.numeric(subcondVarNasSubj)) %o% c(-1, 1)
+ord.reNasSubj <- order(subRanefNasSubj)
+ciNasSubj <- ciNasSubj[order(subRanefNasSubj),]
+plot(subRanefNasSubj[ord.reNasSubj], 1:9, axes=FALSE, xlim=range(ciNasSubj),
+     xlab="Subject variation", ylab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Subject Nas",cex.axis=1.5)
+axis(1,cex.lab=2,cex.axis=1.5)
+axis(2,at=1:9, labels = levels(ord.reLabelNasSubj$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:9) segments(ciNasSubj[i,1], i, ciNasSubj[i, 2],i)
+abline(v = 0, lty=2)
+```
+As with the ratings of VQ, some subjects were producing sounds that were judged as more or less nasal. It is interesting to note that subject p02 was judged as being the one contributing the most to the percept of nasalisation and to the percept of tense voice quality seen above; the same pattern applies to subject p06 who is contributing the least to the percept of nasalisation and tense voice quality. 
+
+###### Raters
+```{r}
+
+ciNasRater <- subRanefNasRater + qnorm(0.975) * sqrt(as.numeric(subcondVarNasRater)) %o% c(-1, 1)
+ord.reNasRater <- order(subRanefNasRater)
+ciNasRater <- ciNasRater[order(subRanefNasRater),]
+plot(subRanefNasRater[ord.reNasRater], 1:6, axes=FALSE, xlim=range(ciNasRater),
+     xlab="Rater variation", ylab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Rater Nas",cex.axis=1.5)
+axis(1,cex.lab=2,cex.axis=1.5)
+axis(2,at=1:6, labels = levels(ord.reLabelNasRater$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:6) segments(ciNasRater[i,1], i, ciNasRater[i, 2],i)
+abline(v = 0, lty=2)
+
+```
+
+With respect to random effects related to the rater, there is a clear clustering with four rater being more favorable to rating "nasality" more often that the remaining two. Raters R01 and R02 (first and second authors, respectively) are equally postively providing ratings. associated with the percept of nasality. 
+
+###### Items
+```{r fig.width=9, fig.height=5}
+
+ciNasWord <- subRanefNasWord + qnorm(0.975) * sqrt(as.numeric(subcondVarNasWord)) %o% c(-1, 1)
+ord.reNasWord <- order(subRanefNasWord)
+ciNasWord <- ciNasWord[order(subRanefNasWord),]
+par(oma = c(0, 1.5, 0, 0))
+plot(1:45,subRanefNasWord[ord.reNasWord], axes=FALSE, ylim=range(ciNasWord),
+       ylab="Item variation", xlab="",cex=2,cex.lab=2,cex.main=2,
+     main="BLUPs Item Nas",cex.axis=1.5)
+axis(2,cex.lab=2,cex.axis=1.5)
+axis(1,at=1:45, labels = levels(ord.reLabelNasWord$x), las=2,cex.lab=2,cex.axis=1.5)
+for(i in 1:45) segments(i, ciNasWord[i,1], i, ciNasWord[i, 2])
+abline(h = 0, lty=2)
+```
+
+
+ As above, various items were rated as more nasal than others. What is interesting to note is that all Items that were rated as more nasal contained a [+back] and +[high] vowels, and the only word that was significantly rated as not contributing to nasality is the one containing /ʕ-ʕ/. 

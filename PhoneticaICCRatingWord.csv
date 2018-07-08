@@ -1,0 +1,181 @@
+,model,experiment,Type,level,context,context2,ICCVal,lowerConfInt,upperConfInt,p.value
+1,NasICCRatingAgreeWordAver3oo3w,Nasalisation,agreement,word,3oo3-w,3--3,0.145833333,-0.177241327,0.617828018,0.214873586
+2,NasICCRatingAgreeWordAver3aamw,Nasalisation,agreement,word,3aam-w,3-n,0.577106518,0.047459846,0.88251638,0.018320988
+3,NasICCRatingAgreeWordAver3eenw,Nasalisation,agreement,word,3een-w,3-n,0.477272727,-0.11367674,0.849451842,0.049196106
+4,NasICCRatingAgreeWordAver3oonw,Nasalisation,agreement,word,3oon-w,3-n,0.851036269,0.631303761,0.960589639,4.12E-06
+5,NasICCRatingAgreeWordAver3aafw,Nasalisation,agreement,word,3aaf-w,3-o,0.24353256,-0.201550374,0.717235046,0.149142393
+6,NasICCRatingAgreeWordAver3eebw,Nasalisation,agreement,word,3eeb-w,3-o,0.314359638,-0.120754029,0.74958942,0.085277292
+7,NasICCRatingAgreeWordAver3iishw,Nasalisation,agreement,word,3iish-w,3-o,0.034482759,-0.373158511,0.597348946,0.398322693
+8,NasICCRatingAgreeWordAver7enw,Nasalisation,agreement,word,7en-w,7-n,0.705639615,0.285336372,0.921953015,0.002912782
+9,NasICCRatingAgreeWordAver7oomw,Nasalisation,agreement,word,7oom-w,7-n,0.905660377,0.766278726,0.975210847,1.54E-08
+10,NasICCRatingAgreeWordAver7aadw,Nasalisation,agreement,word,7aad-w,7-o,0.298449612,-0.31064077,0.777602784,0.148530073
+11,NasICCRatingAgreeWordAver7eefw,Nasalisation,agreement,word,7eef-w,7-o,0.555430501,0.079267136,0.865800105,0.01174453
+12,NasICCRatingAgreeWordAver7ookw,Nasalisation,agreement,word,7ook-w,7-o,0.678431373,0.252554961,0.910307414,0.002488278
+13,NasICCRatingAgreeWordAver3eebv,Nasalisation,agreement,word,3eeb-v,Isolation,0.478095238,-0.123396513,0.85088408,0.050972635
+14,NasICCRatingAgreeWordAver3oo3v,Nasalisation,agreement,word,3oo3-v,Isolation,-0.115124153,-1.463840399,0.812930024,0.942825775
+15,NasICCRatingAgreeWordAver7eefv,Nasalisation,agreement,word,7eef-v,Isolation,0.852744997,0.633666397,0.961070975,3.91E-06
+16,NasICCRatingAgreeWordAverbii3v,Nasalisation,agreement,word,bii3-v,Isolation,-0.074003795,-0.889816361,0.813877528,0.814150373
+17,NasICCRatingAgreeWordAverdjuu3v,Nasalisation,agreement,word,djuu3-v,Isolation,0.576787808,0.09134398,0.87647446,0.011733407
+18,NasICCRatingAgreeWordAverdoomv,Nasalisation,agreement,word,doom-v,Isolation,0.624705882,0.164949588,0.891784262,0.00530797
+19,NasICCRatingAgreeWordAvermaatv,Nasalisation,agreement,word,maat-v,Isolation,0.618572142,0.154097967,0.890836224,0.006687939
+20,NasICCRatingAgreeWordAvernaa7v,Nasalisation,agreement,word,naa7-v,Isolation,0.5568,0.062557313,0.869466902,0.015026006
+21,NasICCRatingAgreeWordAvernaamv,Nasalisation,agreement,word,naam-v,Isolation,0.556865056,0.066447271,0.86882922,0.014333666
+22,NasICCRatingAgreeWordAvernoo3v,Nasalisation,agreement,word,noo3-v,Isolation,0.730632911,0.350942957,0.926492466,0.000824176
+23,NasICCRatingAgreeWordAvernuu7v,Nasalisation,agreement,word,nuu7-v,Isolation,0.314238953,-0.386046366,0.796245396,0.155528681
+24,NasICCRatingAgreeWordAversaamv,Nasalisation,agreement,word,saam-v,Isolation,0.46917586,-0.116770017,0.845654404,0.050811457
+25,NasICCRatingAgreeWordAvernoo3w,Nasalisation,agreement,word,noo3-w,n-3,0.589060309,0.007971795,0.890752704,0.023937627
+26,NasICCRatingAgreeWordAvernaa7w,Nasalisation,agreement,word,naa7-w,n-7,0.886211784,0.707103989,0.970247198,4.43E-07
+27,NasICCRatingAgreeWordAvernuu7w,Nasalisation,agreement,word,nuu7-w,n-7,0.862361038,0.66108708,0.963744571,2.02E-06
+28,NasICCRatingAgreeWordAvermuunw,Nasalisation,agreement,word,muun-w,n-n,0.80861244,0.5329746,0.949331787,6.40E-05
+29,NasICCRatingAgreeWordAvernaamw,Nasalisation,agreement,word,naam-w,n-n,0.761454545,0.427590027,0.936060155,0.000362666
+30,NasICCRatingAgreeWordAvernoomw,Nasalisation,agreement,word,noom-w,n-n,0.720598717,0.313584755,0.926395506,0.002301203
+31,NasICCRatingAgreeWordAvermaatw,Nasalisation,agreement,word,maat-w,n-o,0.749575071,0.39816744,0.933093335,0.000625669
+32,NasICCRatingAgreeWordAvermoozw,Nasalisation,agreement,word,mooz-w,n-o,0.794215795,0.486848624,0.946196359,0.000242724
+33,NasICCRatingAgreeWordAvermuusw,Nasalisation,agreement,word,muus-w,n-o,0.775456919,0.451097955,0.940668486,0.000338148
+34,NasICCRatingAgreeWordAverbaa3w,Nasalisation,agreement,word,baa3-w,o-3,0.117056856,-0.348800905,0.66068655,0.297552763
+35,NasICCRatingAgreeWordAverbii3w,Nasalisation,agreement,word,bii3-w,o-3,0.054021609,-0.346817254,0.604968583,0.369940099
+36,NasICCRatingAgreeWordAverdjuu3w,Nasalisation,agreement,word,djuu3-w,o-3,0.264529058,-0.272840093,0.749693128,0.158497304
+37,NasICCRatingAgreeWordAverloo7w,Nasalisation,agreement,word,loo7-w,o-7,0.151515152,-0.526624679,0.724870574,0.29192131
+38,NasICCRatingAgreeWordAverzaa7w,Nasalisation,agreement,word,zaa7-w,o-7,0.184300341,-0.265830943,0.689197532,0.213584072
+39,NasICCRatingAgreeWordAverzii7w,Nasalisation,agreement,word,zii7-w,o-7,0.170254403,-0.345627612,0.700725462,0.246041337
+40,NasICCRatingAgreeWordAverdiinw,Nasalisation,agreement,word,diin-w,o-n,0.821127236,0.535483401,0.952856991,5.25E-05
+41,NasICCRatingAgreeWordAverdoomw,Nasalisation,agreement,word,doom-w,o-n,0.71559633,0.328318572,0.922135443,0.001165745
+42,NasICCRatingAgreeWordAversaamw,Nasalisation,agreement,word,saam-w,o-n,0.435173299,-0.216237346,0.839025694,0.07673329
+43,NasICCRatingAgreeWordAverbeetw,Nasalisation,agreement,word,beet-w,o-o,0.221052632,-0.470098924,0.75665034,0.228560066
+44,NasICCRatingAgreeWordAverbooshw,Nasalisation,agreement,word,boosh-w,o-o,0.755244755,0.405937336,0.935058862,0.000633576
+45,NasICCRatingAgreeWordAverdaasw,Nasalisation,agreement,word,daas-w,o-o,0.468282252,-0.085616452,0.841285548,0.044544834
+46,NasICCRatingConsWordAver3oo3w,Nasalisation,consistency,word,3oo3-w,3--3,0.369230769,-0.595129254,0.835727772,0.159990507
+47,NasICCRatingConsWordAver3aamw,Nasalisation,consistency,word,3aam-w,3-n,0.635448578,0.078099232,0.905059297,0.016351847
+48,NasICCRatingConsWordAver3eenw,Nasalisation,consistency,word,3een-w,3-n,0.556028369,-0.122743632,0.884375766,0.043315893
+49,NasICCRatingConsWordAver3oonw,Nasalisation,consistency,word,3oon-w,3-n,0.879910714,0.696310594,0.968724957,1.44E-06
+50,NasICCRatingConsWordAver3aafw,Nasalisation,consistency,word,3aaf-w,3-o,0.447540984,-0.397093415,0.856122225,0.103732916
+51,NasICCRatingConsWordAver3eebw,Nasalisation,consistency,word,3eeb-w,3-o,0.576854599,-0.070076938,0.889799574,0.034746353
+52,NasICCRatingConsWordAver3iishw,Nasalisation,consistency,word,3iish-w,3-o,0.069767442,-1.352431117,0.757738064,0.399752518
+53,NasICCRatingConsWordAver7enw,Nasalisation,consistency,word,7en-w,7-n,0.719158879,0.289791152,0.926860103,0.0033389
+54,NasICCRatingConsWordAver7oomw,Nasalisation,consistency,word,7oom-w,7-n,0.914285714,0.783240276,0.977677293,2.25E-08
+55,NasICCRatingConsWordAver7aadw,Nasalisation,consistency,word,7aad-w,7-o,0.402614379,-0.510706663,0.844421918,0.13504907
+56,NasICCRatingConsWordAver7eefw,Nasalisation,consistency,word,7eef-w,7-o,0.769590643,0.417326199,0.939994127,0.000785051
+57,NasICCRatingConsWordAver7ookw,Nasalisation,consistency,word,7ook-w,7-o,0.800514139,0.495527497,0.948047582,0.000238762
+58,NasICCRatingConsWordAver3eebv,Nasalisation,consistency,word,3eeb-v,Isolation,0.54863388,-0.141443285,0.882450008,0.046611813
+59,NasICCRatingConsWordAver3oo3v,Nasalisation,consistency,word,3oo3-v,Isolation,-0.210309278,-2.060706899,0.684797241,0.584608414
+60,NasICCRatingConsWordAver7eefv,Nasalisation,consistency,word,7eef-v,Isolation,0.884630739,0.708246891,0.969954201,9.05E-07
+61,NasICCRatingConsWordAverbii3v,Nasalisation,consistency,word,bii3-v,Isolation,-0.171428571,-1.9623829,0.694923005,0.562443389
+62,NasICCRatingConsWordAverdjuu3v,Nasalisation,consistency,word,djuu3-v,Isolation,0.723529412,0.300843634,0.927998328,0.003000289
+63,NasICCRatingConsWordAverdoomv,Nasalisation,consistency,word,doom-v,Isolation,0.803024575,0.501876046,0.948701379,0.00021386
+64,NasICCRatingConsWordAvermaatv,Nasalisation,consistency,word,maat-v,Isolation,0.7543379,0.378754093,0.936021831,0.001284438
+65,NasICCRatingConsWordAvernaa7v,Nasalisation,consistency,word,naa7-v,Isolation,0.706598985,0.258028896,0.92358911,0.004468048
+66,NasICCRatingConsWordAvernaamv,Nasalisation,consistency,word,naam-v,Isolation,0.718631179,0.288456672,0.926722673,0.003381607
+67,NasICCRatingConsWordAvernoo3v,Nasalisation,consistency,word,noo3-v,Isolation,0.828120516,0.565340256,0.955237154,6.18E-05
+68,NasICCRatingConsWordAvernuu7v,Nasalisation,consistency,word,nuu7-v,Isolation,0.379259259,-0.569768572,0.838339508,0.152372593
+69,NasICCRatingConsWordAversaamv,Nasalisation,consistency,word,saam-v,Isolation,0.556153846,-0.122426316,0.884408444,0.043261099
+70,NasICCRatingConsWordAvernoo3w,Nasalisation,consistency,word,noo3-w,n-3,0.602150538,-0.006106964,0.896387436,0.02577395
+71,NasICCRatingConsWordAvernaa7w,Nasalisation,consistency,word,naa7-w,n-7,0.918572928,0.794082053,0.978793819,1.14E-08
+72,NasICCRatingConsWordAvernuu7w,Nasalisation,consistency,word,nuu7-w,n-7,0.872289157,0.677036716,0.966740063,2.88E-06
+73,NasICCRatingConsWordAvermuunw,Nasalisation,consistency,word,muun-w,n-n,0.824390244,0.555906906,0.954265674,7.56E-05
+74,NasICCRatingConsWordAvernaamw,Nasalisation,consistency,word,naam-w,n-n,0.796197719,0.484611859,0.94692345,0.000287036
+75,NasICCRatingConsWordAvernoomw,Nasalisation,consistency,word,noom-w,n-n,0.727338129,0.310475361,0.928990238,0.002726528
+76,NasICCRatingConsWordAvermaatw,Nasalisation,consistency,word,maat-w,n-o,0.775953079,0.433415931,0.941651106,0.000628624
+77,NasICCRatingConsWordAvermoozw,Nasalisation,consistency,word,mooz-w,n-o,0.793333333,0.47736822,0.946177473,0.000323204
+78,NasICCRatingConsWordAvermuusw,Nasalisation,consistency,word,muus-w,n-o,0.786754967,0.46073243,0.944464259,0.000420211
+79,NasICCRatingConsWordAverbaa3w,Nasalisation,consistency,word,baa3-w,o-3,0.212121212,-0.992437871,0.794811482,0.286618045
+80,NasICCRatingConsWordAverbii3w,Nasalisation,consistency,word,bii3-w,o-3,0.110429448,-1.249602457,0.768327735,0.368380913
+81,NasICCRatingConsWordAverdjuu3w,Nasalisation,consistency,word,djuu3-w,o-3,0.404597701,-0.505691112,0.844938438,0.133607547
+82,NasICCRatingConsWordAverloo7w,Nasalisation,consistency,word,loo7-w,o-7,0.206896552,-1.005650323,0.793450815,0.290894191
+83,NasICCRatingConsWordAverzaa7w,Nasalisation,consistency,word,zaa7-w,o-7,0.34015748,-0.668651632,0.828156169,0.182580127
+84,NasICCRatingConsWordAverzii7w,Nasalisation,consistency,word,zii7-w,o-7,0.280645161,-0.81915016,0.812657282,0.230448895
+85,NasICCRatingConsWordAverdiinw,Nasalisation,consistency,word,diin-w,o-n,0.892844037,0.729017201,0.972093203,3.77E-07
+86,NasICCRatingConsWordAverdoomw,Nasalisation,consistency,word,doom-w,o-n,0.796287703,0.484839418,0.946946884,0.000285955
+87,NasICCRatingConsWordAversaamw,Nasalisation,consistency,word,saam-w,o-n,0.494890511,-0.277352926,0.868453537,0.074353522
+88,NasICCRatingConsWordAverbeetw,Nasalisation,consistency,word,beet-w,o-o,0.286829268,-0.803511398,0.814267819,0.225407694
+89,NasICCRatingConsWordAverbooshw,Nasalisation,consistency,word,boosh-w,o-o,0.771428571,0.421974068,0.940472782,0.000737037
+90,NasICCRatingConsWordAverdaasw,Nasalisation,consistency,word,daas-w,o-o,0.586607143,-0.045414087,0.892339445,0.031099808
+91,VQICCRatingAgreeWordAver3oo3w,Voice Quality,agreement,word,3oo3-w,3--3,0.623931624,0.108902098,0.898928431,0.012544018
+92,VQICCRatingAgreeWordAver3aamw,Voice Quality,agreement,word,3aam-w,3-n,0.469090909,-0.085379641,0.841698077,0.044411348
+93,VQICCRatingAgreeWordAver3eenw,Voice Quality,agreement,word,3een-w,3-n,0.369458128,-0.436722168,0.82697192,0.137783364
+94,VQICCRatingAgreeWordAver3oonw,Voice Quality,agreement,word,3oon-w,3-n,0.475609756,-0.37076237,0.86583469,0.091663914
+95,VQICCRatingAgreeWordAver3aafw,Voice Quality,agreement,word,3aaf-w,3-o,0.221674877,-0.550728042,0.767036517,0.23973381
+96,VQICCRatingAgreeWordAver3eebw,Voice Quality,agreement,word,3eeb-w,3-o,0.815668203,0.546502182,0.951462352,5.81E-05
+97,VQICCRatingAgreeWordAver3iishw,Voice Quality,agreement,word,3iish-w,3-o,0.572815534,0.021251233,0.882810181,0.021958791
+98,VQICCRatingAgreeWordAver7enw,Voice Quality,agreement,word,7en-w,7-n,0.681081081,0.227489215,0.915343971,0.005079037
+99,VQICCRatingAgreeWordAver7oomw,Voice Quality,agreement,word,7oom-w,7-n,0.670694864,0.223826143,0.91108642,0.004698646
+100,VQICCRatingAgreeWordAver7aadw,Voice Quality,agreement,word,7aad-w,7-o,0.137254902,-0.866046281,0.75598531,0.331962119
+101,VQICCRatingAgreeWordAver7eefw,Voice Quality,agreement,word,7eef-w,7-o,0.032258065,-0.904490889,0.708265099,0.421035498
+102,VQICCRatingAgreeWordAver7ookw,Voice Quality,agreement,word,7ook-w,7-o,0.6812749,0.250524288,0.913739683,0.003518169
+103,VQICCRatingAgreeWordAver3eebv,Voice Quality,agreement,word,3eeb-v,Isolation,0.2578125,-0.410528171,0.768983155,0.193060172
+104,VQICCRatingAgreeWordAver3oo3v,Voice Quality,agreement,word,3oo3-v,Isolation,0.161290323,-0.703459046,0.752750848,0.301787489
+105,VQICCRatingAgreeWordAver7eefv,Voice Quality,agreement,word,7eef-v,Isolation,-0.523809524,-3.010243205,0.61117709,0.720370954
+106,VQICCRatingAgreeWordAverbii3v,Voice Quality,agreement,word,bii3-v,Isolation,0.022900763,-0.728973581,0.679536343,0.426721186
+107,VQICCRatingAgreeWordAverdjuu3v,Voice Quality,agreement,word,djuu3-v,Isolation,0.397058824,-0.308520457,0.82931311,0.105326014
+108,VQICCRatingAgreeWordAverdoomv,Voice Quality,agreement,word,doom-v,Isolation,-0.436893204,-3.148615753,0.648014965,0.677625122
+109,VQICCRatingAgreeWordAvermaatv,Voice Quality,agreement,word,maat-v,Isolation,0.609756098,0.098690084,0.893384698,0.01301356
+110,VQICCRatingAgreeWordAvernaa7v,Voice Quality,agreement,word,naa7-v,Isolation,-0.294642857,-1.354875111,0.567858197,0.712548787
+111,VQICCRatingAgreeWordAvernaamv,Voice Quality,agreement,word,naam-v,Isolation,-0.689189189,-1.493637901,0.312847517,0.899991172
+112,VQICCRatingAgreeWordAvernoo3v,Voice Quality,agreement,word,noo3-v,Isolation,0.5,-0.192487132,0.866229606,0.060093327
+113,VQICCRatingAgreeWordAvernuu7v,Voice Quality,agreement,word,nuu7-v,Isolation,0.624161074,0.152015343,0.895088069,0.007811273
+114,VQICCRatingAgreeWordAversaamv,Voice Quality,agreement,word,saam-v,Isolation,0.139240506,-0.856799094,0.756145266,0.329885915
+115,VQICCRatingAgreeWordAvernoo3w,Voice Quality,agreement,word,noo3-w,n-3,0.40969163,-0.290464268,0.833654063,0.097846433
+116,VQICCRatingAgreeWordAvernaa7w,Voice Quality,agreement,word,naa7-w,n-7,-0.060606061,-0.906866416,0.680417532,0.632800084
+117,VQICCRatingAgreeWordAvernuu7w,Voice Quality,agreement,word,nuu7-w,n-7,0.406896552,-0.21623977,0.824823578,0.083984999
+118,VQICCRatingAgreeWordAvermuunw,Voice Quality,agreement,word,muun-w,n-n,0.535714286,-0.156007414,0.878515012,0.049870235
+119,VQICCRatingAgreeWordAvernaamw,Voice Quality,agreement,word,naam-w,n-n,-0.027027027,-0.592186495,0.609735221,0.494282005
+120,VQICCRatingAgreeWordAvernoomw,Voice Quality,agreement,word,noom-w,n-n,0.668181818,0.198783607,0.91176849,0.006470885
+121,VQICCRatingAgreeWordAvermaatw,Voice Quality,agreement,word,maat-w,n-o,0.214285714,-0.747475579,0.781457594,0.26621143
+122,VQICCRatingAgreeWordAvermoozw,Voice Quality,agreement,word,mooz-w,n-o,0.280788177,-0.539892954,0.795033787,0.199182814
+123,VQICCRatingAgreeWordAvermuusw,Voice Quality,agreement,word,muus-w,n-o,0.141176471,-0.966739462,0.76510565,0.33428746
+124,VQICCRatingAgreeWordAverbaa3w,Voice Quality,agreement,word,baa3-w,o-3,0.5,-0.025352423,0.850450823,0.030158193
+125,VQICCRatingAgreeWordAverbii3w,Voice Quality,agreement,word,bii3-w,o-3,0.404255319,-0.226746177,0.824663558,0.086947728
+126,VQICCRatingAgreeWordAverdjuu3w,Voice Quality,agreement,word,djuu3-w,o-3,0.395604396,-0.166808446,0.812006593,0.075832053
+127,VQICCRatingAgreeWordAverloo7w,Voice Quality,agreement,word,loo7-w,o-7,0.6,0.085372097,0.889975276,0.014165694
+128,VQICCRatingAgreeWordAverzaa7w,Voice Quality,agreement,word,zaa7-w,o-7,0.637426901,0.175940082,0.899276417,0.006357934
+129,VQICCRatingAgreeWordAverzii7w,Voice Quality,agreement,word,zii7-w,o-7,0.644341801,0.174389043,0.90301491,0.007060229
+130,VQICCRatingAgreeWordAverdiinw,Voice Quality,agreement,word,diin-w,o-n,-2.04E-16,-0.340828184,0.544211164,0.451157515
+131,VQICCRatingAgreeWordAverdoomw,Voice Quality,agreement,word,doom-w,o-n,0.346153846,-0.398064089,0.813261706,0.141930659
+132,VQICCRatingAgreeWordAversaamw,Voice Quality,agreement,word,saam-w,o-n,-0.114503817,-2.558623926,0.808817265,0.702169652
+133,VQICCRatingAgreeWordAverbeetw,Voice Quality,agreement,word,beet-w,o-o,0.136363636,-0.47854964,0.706948307,0.299255184
+134,VQICCRatingAgreeWordAverbooshw,Voice Quality,agreement,word,boosh-w,o-o,0.230769231,-0.578194689,0.774539013,0.236832707
+135,VQICCRatingAgreeWordAverdaasw,Voice Quality,agreement,word,daas-w,o-o,0.454005935,-0.17455332,0.844148728,0.064629605
+136,VQICCRatingConsWordAver3oo3w,Voice Quality,consistency,word,3oo3-w,3--3,0.648888889,0.112087944,0.908559578,0.013292029
+137,VQICCRatingConsWordAver3aamw,Voice Quality,consistency,word,3aam-w,3-n,0.586363636,-0.046029882,0.892276028,0.031187995
+138,VQICCRatingConsWordAver3eenw,Voice Quality,consistency,word,3een-w,3-n,0.394736842,-0.530627878,0.842370359,0.140822207
+139,VQICCRatingConsWordAver3oonw,Voice Quality,consistency,word,3oon-w,3-n,0.462222222,-0.359966567,0.859945683,0.09418306
+140,VQICCRatingConsWordAver3aafw,Voice Quality,consistency,word,3aaf-w,3-o,0.268656716,-0.8494673,0.809535113,0.240247639
+141,VQICCRatingConsWordAver3eebw,Voice Quality,consistency,word,3eeb-w,3-o,0.823255814,0.553038088,0.953970232,8.03E-05
+142,VQICCRatingConsWordAver3iishw,Voice Quality,consistency,word,3iish-w,3-o,0.615652174,0.02803683,0.899903688,0.021630305
+143,VQICCRatingConsWordAver7enw,Voice Quality,consistency,word,7en-w,7-n,0.695172414,0.229132658,0.92061327,0.00571451
+144,VQICCRatingConsWordAver7oomw,Voice Quality,consistency,word,7oom-w,7-n,0.704761905,0.253383172,0.923110676,0.004653778
+145,VQICCRatingConsWordAver7aadw,Voice Quality,consistency,word,7aad-w,7-o,0.152727273,-1.142637033,0.779343424,0.33483648
+146,VQICCRatingConsWordAver7eefw,Voice Quality,consistency,word,7eef-w,7-o,0.039344262,-1.429367184,0.749814908,0.422568723
+147,VQICCRatingConsWordAver7ookw,Voice Quality,consistency,word,7ook-w,7-o,0.72,0.291918234,0.927079157,0.003271649
+148,VQICCRatingConsWordAver3eebv,Voice Quality,consistency,word,3eeb-v,Isolation,0.334177215,-0.683774906,0.82659872,0.187306398
+149,VQICCRatingConsWordAver3oo3v,Voice Quality,consistency,word,3oo3-v,Isolation,0.19047619,-1.047175175,0.789174435,0.304299875
+150,VQICCRatingConsWordAver7eefv,Voice Quality,consistency,word,7eef-v,Isolation,-0.507692308,-2.812747973,0.607349309,0.720138219
+151,VQICCRatingConsWordAverbii3v,Voice Quality,consistency,word,bii3-v,Isolation,0.031578947,-1.449004605,0.747792574,0.428295429
+152,VQICCRatingConsWordAverdjuu3v,Voice Quality,consistency,word,djuu3-v,Isolation,0.445360825,-0.402606739,0.855554443,0.105182171
+153,VQICCRatingConsWordAverdoomv,Voice Quality,consistency,word,doom-v,Isolation,-0.4,-2.540408832,0.635395787,0.677488865
+154,VQICCRatingConsWordAvermaatv,Voice Quality,consistency,word,maat-v,Isolation,0.652173913,0.120395321,0.909415102,0.012606477
+155,VQICCRatingConsWordAvernaa7v,Voice Quality,consistency,word,naa7-v,Isolation,-0.507692308,-2.812747973,0.607349309,0.720138219
+156,VQICCRatingConsWordAvernaamv,Voice Quality,consistency,word,naam-v,Isolation,-1.457142857,-5.213778766,0.360082401,0.909870851
+157,VQICCRatingConsWordAvernoo3v,Voice Quality,consistency,word,noo3-v,Isolation,0.515555556,-0.22509385,0.873835367,0.062924884
+158,VQICCRatingConsWordAvernuu7v,Voice Quality,consistency,word,nuu7-v,Isolation,0.701886792,0.246112405,0.922361906,0.00495553
+159,VQICCRatingConsWordAversaamv,Voice Quality,consistency,word,saam-v,Isolation,0.155294118,-1.136145833,0.780011912,0.33277563
+160,VQICCRatingConsWordAvernoo3w,Voice Quality,consistency,word,noo3-w,n-3,0.456441718,-0.374584674,0.858440257,0.097898777
+161,VQICCRatingConsWordAvernaa7w,Voice Quality,consistency,word,naa7-w,n-7,-0.133333333,-1.866045245,0.704844208,0.539629572
+162,VQICCRatingConsWordAvernuu7w,Voice Quality,consistency,word,nuu7-w,n-7,0.491666667,-0.285505588,0.867613946,0.076217316
+163,VQICCRatingConsWordAvermuunw,Voice Quality,consistency,word,muun-w,n-n,0.535714286,-0.174115174,0.879085337,0.052682401
+164,VQICCRatingConsWordAvernaamw,Voice Quality,consistency,word,naam-w,n-n,-0.048979592,-1.652726151,0.726812587,0.485203184
+165,VQICCRatingConsWordAvernoomw,Voice Quality,consistency,word,noom-w,n-n,0.68372093,0.20017342,0.917630942,0.007193819
+166,VQICCRatingConsWordAvermaatw,Voice Quality,consistency,word,maat-w,n-o,0.233009709,-0.939613715,0.800251506,0.269488951
+167,VQICCRatingConsWordAvermoozw,Voice Quality,consistency,word,mooz-w,n-o,0.316666667,-0.728056692,0.82203842,0.201272004
+168,VQICCRatingConsWordAvermuusw,Voice Quality,consistency,word,muus-w,n-o,0.15,-1.149533934,0.778633156,0.337023283
+169,VQICCRatingConsWordAverbaa3w,Voice Quality,consistency,word,baa3-w,o-3,0.637974684,0.084487409,0.905717175,0.015745024
+170,VQICCRatingConsWordAverbii3w,Voice Quality,consistency,word,bii3-w,o-3,0.485106383,-0.302095649,0.865905441,0.080074925
+171,VQICCRatingConsWordAverdjuu3w,Voice Quality,consistency,word,djuu3-w,o-3,0.528440367,-0.192509921,0.877190979,0.056271666
+172,VQICCRatingConsWordAverloo7w,Voice Quality,consistency,word,loo7-w,o-7,0.649541284,0.113737763,0.908729483,0.013153963
+173,VQICCRatingConsWordAverzaa7w,Voice Quality,consistency,word,zaa7-w,o-7,0.710869565,0.268828611,0.924701304,0.004057082
+174,VQICCRatingConsWordAverzii7w,Voice Quality,consistency,word,zii7-w,o-7,0.688888889,0.213242482,0.918976842,0.006496474
+175,VQICCRatingConsWordAverdiinw,Voice Quality,consistency,word,diin-w,o-n,-4.86E-16,-1.528863451,0.739568419,0.451157515
+176,VQICCRatingConsWordAverdoomw,Voice Quality,consistency,word,doom-w,o-n,0.392727273,-0.535709805,0.841847004,0.14230675
+177,VQICCRatingConsWordAversaamw,Voice Quality,consistency,word,saam-w,o-n,-0.166666667,-1.950340693,0.696163156,0.559651386
+178,VQICCRatingConsWordAverbeetw,Voice Quality,consistency,word,beet-w,o-o,0.2,-1.023090761,0.791654735,0.296531411
+179,VQICCRatingConsWordAverbooshw,Voice Quality,consistency,word,boosh-w,o-o,0.270967742,-0.843623032,0.810136977,0.238356454
+180,VQICCRatingConsWordAverdaasw,Voice Quality,consistency,word,daas-w,o-o,0.518644068,-0.217283424,0.874639714,0.061296217
