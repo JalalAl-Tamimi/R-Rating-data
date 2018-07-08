@@ -1144,7 +1144,7 @@ abline(v = 0, lty=2)
 
 With respect to raters, it is interesting to see that there is a clear split between raters (that was already picked up in the IRR analyses above). The first three (2, 5 and 6) were more likely to provide postive responses to "tense" whereas 1 and 4 (and potentially 3) were more conservative in their responses. R01 is the first author and R02 is the second. This shows that R01 is more conservative in their responses than R02.
 
-##### Items
+###### Items
 ```{r fig.width=9, fig.height=5}
 
 ciVQWord <- subRanefVQWord + qnorm(0.975) * sqrt(as.numeric(subcondVarVQWord)) %o% c(-1, 1)
@@ -1319,7 +1319,7 @@ axis(2,at=1:9, labels = levels(ord.reLabelNasSubj$x), las=2,cex.lab=2,cex.axis=1
 for(i in 1:9) segments(ciNasSubj[i,1], i, ciNasSubj[i, 2],i)
 abline(v = 0, lty=2)
 ```
-
+As with the ratings of VQ, some subjects were producing sounds that were judged as more or less nasal. It is interesting to note that subject p02 was judged as being the one contributing the most to the percept of nasalisation and to the percept of tense voice quality seen above; the same pattern applies to subject p06 who is contributing the least to the percept of nasalisation and tense voice quality. 
 
 ###### Raters
 ```{r}
@@ -1337,8 +1337,9 @@ abline(v = 0, lty=2)
 
 ```
 
+With respect to random effects related to the rater, there is a clear clustering with four rater being more favorable to rating "nasality" more often that the remaining two. Raters R01 and R02 (first and second authors, respectively) are equally postively providing ratings. associated with the percept of nasality. 
 
-##### Items
+###### Items
 ```{r fig.width=9, fig.height=5}
 
 ciNasWord <- subRanefNasWord + qnorm(0.975) * sqrt(as.numeric(subcondVarNasWord)) %o% c(-1, 1)
@@ -1355,4 +1356,4 @@ abline(h = 0, lty=2)
 ```
 
 
- 
+ As above, various items were rated as more nasal than others. What is interesting to note is that all Items that were rated as more nasal contained a [+back] and +[high] vowels, and the only word that was significantly rated as not contributing to nasality is the one containing /ʕ-ʕ/. 
