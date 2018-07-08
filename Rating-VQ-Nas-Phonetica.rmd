@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Rating VQ and Nasalisation Pharyngeals"
 author: 
@@ -1357,3 +1358,227 @@ abline(h = 0, lty=2)
 
 
  As above, various items were rated as more nasal than others. What is interesting to note is that all Items that were rated as more nasal contained a [+back] and +[high] vowels, and the only word that was significantly rated as not contributing to nasality is the one containing /ʕ-ʕ/. 
+=======
+---
+title: "Rating VQ and Nasalisation Pharyngeals"
+author: 
+  name: "Jalal Al-Tamimi"
+  affiliation: "Newcastle University"
+date: "09 June 2018"
+output: 
+  html_notebook:
+    number_sections: true
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: true
+---
+
+# Introduction
+This analysis accompanies the article "Khattab, G., Al-Tamimi, J., and Al-Siraih, W., (in press). Nasalisation in the production of Iraqi Arabic pharyngeals. Phonetica.". 
+Below is an analysis of the perceptual experiment that was run to evaluate raters impressions of voice quality changes and/or nasalisation that was present within pharyngeals in Iraqi Arabic. 
+
+# Material
+Data were recorded from nine Iraqi Arabic speakers producing a list of items containing the two pharyngeal consonants /ħ ʕ/ and either an oral context (i.e., oral consonant), a nasal context (i.e., nasal consonant), or only two pharyngeals (/ʕ-ʕ/). The "control" contexts were oral-oral, oral-nasal, nasal-oral, nasal-nasal, and Isolation (which was all vowels in the items produced in isolation). The items were in a CVC environment. 
+
+Our aim in this analysis was to evaluate the impression of harsh/tense voice quality and/or nasalisation in the pharyngeal contexts, as compared with all other contexts specified above was perceptually salient or not. For this, six phonetically trained raters (inluding the first two authors) rated these items using Praat's MFC experiment. The data used here were a subset of the data (around 20%). The first author rated all items and the results obtained from the full set and the subset are comparable. We ran this as a rating experiment, with three levels rating for Voice Quality (experiment 1) and five levels rating for Nasalisation (experiment 2). For more details, see the article.
+
+# Statistical analyses
+## Details
+The data were analysed using Cumulative Link Mixed Models (CLMM) using the "ordinal" package. 
+
+Given the structure of the data, we used a random effects structure to account for the design. A crossed random effects structure (for the producing subjects, the raters and the items) was used. A by-rater random slope for Context was used as it improved the model fit compared to a model with it. 
+
+Our outcome is the response entered as a factor (3 for Voice Quality; 5 for Nasalisation). Our predictor was Context with the reference level being set to "Isolation". 
+
+We compared various combinations, e.g., by subject and item random slopes; interactions with vowel, etc. and all these did not improve the model fit. Hence the models reported below are the optimal ones 
+
+## Models
+
+### Loading packages
+Start by loading packages and install those that are not installed
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+requiredPackages = c('ordinal')
+for(p in requiredPackages){
+  if(!require(p,character.only = TRUE)) install.packages(p)
+  library(p,character.only = TRUE)
+}
+```
+### Reading the data
+We then read in the data and look at the structure to verify the class of each column.
+```{r warning=FALSE, message=FALSE, error=FALSE}
+percVQDF <- read.csv("percVQDF.csv")
+percNasDF <- read.csv("percNasDF.csv")
+str(percVQDF)
+str(percNasDF)
+```
+### Changing a few things
+We are changing a few things in both dataframes
+
+1. Changing type of "response" to factor to suite the Cumulative Logit Mixed Model
+
+2. Checking the levels of Context and changing the reference category to "Isolation"
+
+3. Creating a new variable "ContextIPA" that contains the IPA symbols to be plotted in the figures below
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+# factor level
+percVQDF$Response <- as.factor(percVQDF$Response)
+percNasDF$Response <- as.factor(percNasDF$Response)
+
+
+# Changing the reference level
+levels(percVQDF$Context)
+percVQDF$Context <- relevel(percVQDF$Context, ref="isolation")
+levels(percNasDF$Context)
+percNasDF$Context <- relevel(percNasDF$Context, ref="isolation")
+
+# Creating a new variable "ContextIPA"
+## for Voice Quallity
+percVQDF$ContextIPA <- percVQDF$Context
+percVQDF$ContextIPA <- as.character(percVQDF$ContextIPA)
+percVQDF$ContextIPA[percVQDF$ContextIPA == "7-o"] <- "\u0127-o"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "o-7"] <- "o-\u0127"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "7-n"] <- "\u0127-n"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "n-7"] <- "n-\u0127"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "3-o"] <- "ʕ-o"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "o-3"] <- "o-ʕ"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "3-n"] <- "ʕ-n"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "n-3"] <- "n-ʕ"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "3--3"] <- "ʕ-ʕ"
+percVQDF$ContextIPA[percVQDF$ContextIPA == "isolation"] <- "Isolation"
+percVQDF$ContextIPA <- as.factor(percVQDF$ContextIPA)
+percVQDF$ContextIPA <- relevel(percVQDF$ContextIPA, ref="Isolation")
+levels(percVQDF$ContextIPA)
+# reordering levels of predictor
+percVQDF$Context <- factor(percVQDF$Context, levels = c("isolation","7-n","7-o","n-7","n-n","n-o","n-3","o-7","o-n","o-o","o-3","3-n","3-o","3--3"))
+percVQDF$ContextIPA <- factor(percVQDF$ContextIPA, levels = c("Isolation","\u0127-n","\u0127-o","n-\u0127","n-n","n-o","n-ʕ","o-\u0127","o-n","o-o","o-ʕ","ʕ-n","ʕ-o","ʕ-ʕ"))
+levels(percVQDF$Context)
+levels(percVQDF$ContextIPA)
+
+## for Nasalisation
+percNasDF$ContextIPA <- percNasDF$Context
+percNasDF$ContextIPA <- as.character(percNasDF$ContextIPA)
+percNasDF$ContextIPA[percNasDF$ContextIPA == "7-o"] <- "\u0127-o"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "o-7"] <- "o-\u0127"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "7-n"] <- "\u0127-n"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "n-7"] <- "n-\u0127"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "3-o"] <- "ʕ-o"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "o-3"] <- "o-ʕ"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "3-n"] <- "ʕ-n"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "n-3"] <- "n-ʕ"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "3--3"] <- "ʕ-ʕ"
+percNasDF$ContextIPA[percNasDF$ContextIPA == "isolation"] <- "Isolation"
+percNasDF$ContextIPA <- as.factor(percNasDF$ContextIPA)
+percNasDF$ContextIPA <- relevel(percNasDF$ContextIPA, ref="Isolation")
+levels(percNasDF$ContextIPA)
+
+# reordering levels of predictor
+percNasDF$Context <- factor(percNasDF$Context, levels = c("isolation","7-n","7-o","n-7","n-n","n-o","n-3","o-7","o-n","o-o","o-3","3-n","3-o","3--3"))
+percNasDF$ContextIPA <- factor(percNasDF$ContextIPA, levels = c("Isolation","\u0127-n","\u0127-o","n-\u0127","n-n","n-o","n-ʕ","o-\u0127","o-n","o-o","o-ʕ","ʕ-n","ʕ-o","ʕ-ʕ"))
+levels(percNasDF$Context)
+levels(percNasDF$ContextIPA)
+```
+
+## Model specifications
+As can be seem from the results of system time, it took roungly one hour to run the first model with a 4-Core machine running Microsoft R Open version 3.5.0 that ran the model using parallel computing (total around 4:30 hours). With the base R, it may take at least double this time to run, if not more given that with base R, only one core is used (unless specifically using parallel computing).
+
+### Voice Quality (VQ) 
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+system.time(fullCLMMVQSlope <- clmm(Response ~ Context + (1|Subject)+(1|Item)+(Context|Rater), data=percVQDF))
+system.time(fullCLMMVQNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percVQDF))
+```
+
+### Nasalisation
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+system.time(fullCLMMNasSlope <- clmm(Response ~ Context + (1|Subject)+(1|Item)+(Context|Rater), data=percNasDF))
+system.time(fullCLMMNasNull <- clmm(Response ~ 1 + (1|Subject)+(1|Item)+(Context|Rater), data=percNasDF))
+```
+
+## Results
+The results below are divided into those on Voice Quality (VQ) followed by those on Nasalisation.  
+
+### Voice Quality (VQ)
+
+#### Model comparisons
+
+Through model comparison between the optimal model and the null model (aka Intercept only model), the results show that using our optimal model improved the model fit. 
+```{r warning=FALSE, message=FALSE, error=FALSE}
+anova(fullCLMMVQNull,fullCLMMVQSlope)
+```
+
+#### Summary
+Next the summary presented below shows the results for each of the coefficients (minus the Intercept) and of the thresholds (1|2 and 2|3). 
+
+Starting with the threshlods, the results show that overall, a decrease in ratings of tense voice quality is obtained for ratings between 1 and 2, which increases with ratings between 2 to 3. The coefficients of the 12 levels of the fixed effect "Context" show either negative or positive values. The negative ones indicate that the ratings of "tense" are decreased in these contexts (e.g., o-o or n-o) which obtained lower betas compared to the reference value "Isolation". All positive values are associated with increase in ratings of "tense" voice quality, though some are not statistically significant.
+```{r warning=FALSE, message=FALSE, error=FALSE}
+summary(fullCLMMVQSlope)
+```
+
+#### Figure
+The summary of the results showed some statistically significant coefficients that displayed an association with increased ratings of "tense". To allow us to visualise the ratings, we use the script below, which is a modified version of two scripts (see references in article). 
+
+The "beta" is the coefficient for each level of the fixed effect "Context" and "Theta" is the coefficient for each threshold of the ratings "Response", 1|2, 2|3, etc...
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+## below changes the margins
+par(oma=c(1, 0, 0, 3),mgp=c(2, 1, 0))
+xlimVQ = c(min(fullCLMMVQSlope$beta), max(fullCLMMVQSlope$beta))
+ylimVQ = c(0,1)
+plot(0,0,xlim=xlimVQ, ylim=ylimVQ, type="n", ylab=expression(Probability), xlab="", xaxt = "n",main="Predicted curves - Voice Quality",cex=2,cex.lab=1.5,cex.main=1.5,cex.axis=1.5)
+axis(side = 1, at = c(0,fullCLMMVQSlope$beta),labels = levels(percVQDF$ContextIPA), las=2,cex=2,cex.lab=1.5,cex.axis=1.5)
+xsVQ = seq(xlimVQ[1], xlimVQ[2], length.out=100)
+lines(xsVQ, plogis(fullCLMMVQSlope$Theta[1] - xsVQ), col='black')
+lines(xsVQ, plogis(fullCLMMVQSlope$Theta[2] - xsVQ)-plogis(fullCLMMVQSlope$Theta[1] - xsVQ), col='red')
+lines(xsVQ, 1- (plogis(fullCLMMVQSlope$Theta[2] - xsVQ)), col='blue')
+abline(v=c(0,fullCLMMVQSlope$beta),lty=3)
+abline(h=0, lty="dashed")
+abline(h=1, lty="dashed")
+legend(par('usr')[2], par('usr')[4], bty='n', xpd=NA,lty=1, col=c("black", "red", "blue"), 
+       legend=c("Breathy", "Modal", "Tense"),cex=0.75)
+```
+
+The figure above show that ratings of "Breathy" received less than 15% specifically and this was mainly either in the "Isolation" context or contexts with nasal consonants. This same group showed increase in ratings of "Modal" voice at a rate close to 75%. Ratings associated with the "Tense" voice increased steadily from this first group until reaching the pharyngeal contexts, with the highest ratings of "Tense" being present in /ʕ-ʕ/ context at a rate of 80%, with the remaining 20% being associated with "Modal" voice
+
+### Nasalisation
+
+#### Model comparisons
+
+With Nasalisation, model comparisons showed again an improvement of the model fit with our optimal model. 
+```{r warning=FALSE, message=FALSE, error=FALSE}
+anova(fullCLMMNasNull,fullCLMMNasSlope)
+```
+
+#### Summary
+
+The summary of the model showed again a steady increase in ratings associated with nasal from 1 to 5. Ratings of 1|2 and 2|3 are not statistically significant; those from 3 to 5 are statistically and significantly associated with nasalisation. The coefficients of the 12 levels of the fixed effect are either negative, i.e., not associated with ratings of nasalisation, specifically when an oral context is in initial position, or when a pharyngeal is associated with an oral context. When pharyngeals are associated with nasals, ratings of nasalisation are increased.   
+```{r warning=FALSE, message=FALSE, error=FALSE}
+summary(fullCLMMNasSlope)
+```
+
+#### Figure
+```{r warning=FALSE, message=FALSE, error=FALSE}
+## below changes the margins
+par(oma=c(1, 0, 0, 3),mgp=c(2, 1, 0))
+xlimNas = c(min(fullCLMMNasSlope$beta), max(fullCLMMNasSlope$beta))
+ylimNas = c(0,1)
+plot(0,0,xlim=xlimNas, ylim=ylimNas, type="n", ylab=expression(Probability), xlab="", xaxt = "n",main="Predicted curves - Nasalisation",cex=2,cex.lab=1.5,cex.main=1.5,cex.axis=1.5)
+axis(side = 1, at = c(0,fullCLMMNasSlope$beta),labels = levels(percNasDF$ContextIPA), las=2,cex=2,cex.lab=1.5,cex.axis=1.5)
+xsNas = seq(xlimNas[1], xlimNas[2], length.out=100)
+lines(xsNas, plogis(fullCLMMNasSlope$Theta[1] - xsNas), col='black')
+lines(xsNas, plogis(fullCLMMNasSlope$Theta[2] - xsNas)-plogis(fullCLMMNasSlope$Theta[1] - xsNas), col='red')
+lines(xsNas, plogis(fullCLMMNasSlope$Theta[3] - xsNas)-plogis(fullCLMMNasSlope$Theta[2] - xsNas), col='green')
+lines(xsNas, plogis(fullCLMMNasSlope$Theta[4] - xsNas)-plogis(fullCLMMNasSlope$Theta[3] - xsNas), col='orange')
+lines(xsNas, 1-(plogis(fullCLMMNasSlope$Theta[4] - xsNas)), col='blue')
+abline(v=c(0,fullCLMMNasSlope$beta),lty=3)
+abline(h=0, lty="dashed")
+abline(h=1, lty="dashed")
+legend(par('usr')[2], par('usr')[4], bty='n', xpd=NA,lty=1, col=c("black", "red", "green", "orange", "blue"), 
+       legend=c("Oral", "2", "3", "4", "Nasal"),cex=0.75)
+```
+
+The figure above shows how two groups are formed. The first group includes all oral contexts, Isolation and pharyngeals either on their own or with an oral context. The second group include all nasal contexts and those including pharyngeals and nasals. It is interesting to see that the percept of nasality is increased when a pharyngeal is associated with a nasal context; when associated with an oral context, the ratings are mostly "Oral". The context "n-o" and "n-n" received the highest ratings of "Nasal" (4 and 5) with a sum of around 85-90%. This was followed by both "n-ʕ" and "ʕ-n" at a combined rating of around 80%.
+>>>>>>> a40866a2799f362d486424c2fe8f0dce84f8fa79
